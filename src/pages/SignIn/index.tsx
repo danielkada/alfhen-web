@@ -2,12 +2,12 @@ import backgroundImage from '../../assets/images/background-book.jpg';
 import logo from '../../assets/images/logo.svg';
 import loginButton from '../../assets/images/login-button.svg';
 
-import { Link } from 'react-router-dom';
+import { ChangeEvent, FormEvent, useState } from 'react';
 
-import { Container, InputContainer } from './styles';
+import { Link } from 'react-router-dom';
 import { Input } from '../../components/Input';
 
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { Container, InputContainer } from './styles';
 
 export default function SignIn() {
 	const [username, setUsername] = useState('');

@@ -10,8 +10,8 @@ export default function Home() {
 			<img src={logo} alt='Logo' width={110}/>
 
 			<ButtonsContainer>
-				<Link to='/signin'>Iniciar</Link>
-				<Link to='/signup'>Já tenho uma conta</Link>
+				<Link to='/signup'>Iniciar</Link>
+				<Link to='/signin'>Já tenho uma conta</Link>
 			</ButtonsContainer>
 		</Container>
 	);

@@ -24,20 +24,34 @@ export const InputContainer = styled.form`
 
   margin-top: 168px;
 
+  h3 {
+    font-size: 22px;
+
+    color: #000;
+
+    margin-bottom: 36px;
+  }
+
   button {
     border: none;
 
+    width: 390px;
+    height: 52px;
+
+    background: #E22D2D;
+    color: #fff;
+
     margin-top: 70px;
 
-    transition: opacity 0.2s ease-in-out;
+    transition: background 0.2s ease-in-out;
 
     &:hover {
-      opacity: 0.5;
+      background: rgba(226, 45, 45, 0.6);
     }
 
     &[disabled] {
       cursor: default;
-      opacity: 0.5 !important;
+      background: rgba(226, 45, 45, 0.6) !important;
     }
   }
 
