@@ -7,7 +7,12 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Input } from '../../components/Input';
 
+import isAxiosError from '../../utils/isAxiosError';
+import { Error } from '../../types/Error';
+
 import { Container, InputContainer } from './styles';
+
+import SessionService from '../../services/SessionService';
 
 export default function SignIn() {
 	const [username, setUsername] = useState('');
@@ -35,11 +40,23 @@ export default function SignIn() {
 		setPassword(value);
 	}
 
-	function handleSubmit(event: FormEvent<HTMLFormElement>) {
+	async function handleSubmit(event: FormEvent<HTMLFormElement>) {
 		event.preventDefault();
 
-		console.log(username);
-		console.log(password);
+		try {
+			const session = await SessionService.login({ username, password });
+			console.log(session);
+		} catch(error) {
+			if (isAxiosError(error)) {
+				const axiosError = error as Error;
+
+				console.log(axiosError.response.data.error);
+				return;
+			}
+
+			console.log(error);
+		}
+
 	}
 
 	return (
