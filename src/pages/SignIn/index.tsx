@@ -2,21 +2,20 @@ import backgroundImage from '../../assets/images/background-book.jpg';
 import logo from '../../assets/images/logo.svg';
 import loginButton from '../../assets/images/login-button.svg';
 
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { AuthContext } from '../../contexts/AuthContext';
+
+import { ChangeEvent, FormEvent, useContext, useState } from 'react';
 
 import { Link } from 'react-router-dom';
 import { Input } from '../../components/Input';
 
-import isAxiosError from '../../utils/isAxiosError';
-import { Error } from '../../types/Error';
-
 import { Container, InputContainer } from './styles';
-
-import SessionService from '../../services/SessionService';
 
 export default function SignIn() {
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
+
+	const { authenticate } = useContext(AuthContext);
 
 	const isFormValid = username.length > 0 && password.length > 0;
 
@@ -43,20 +42,7 @@ export default function SignIn() {
 	async function handleSubmit(event: FormEvent<HTMLFormElement>) {
 		event.preventDefault();
 
-		try {
-			const session = await SessionService.login({ username, password });
-			console.log(session);
-		} catch(error) {
-			if (isAxiosError(error)) {
-				const axiosError = error as Error;
-
-				console.log(axiosError.response.data.error);
-				return;
-			}
-
-			console.log(error);
-		}
-
+		await authenticate(username, password);
 	}
 
 	return (

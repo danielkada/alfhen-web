@@ -14,7 +14,7 @@ class SessionService {
 
 	async login({ username, password }: Credentials) {
 		return this.httpClient.post('/sessions', {
-			username, password
+			username, password,
 		});
 	}
 }
