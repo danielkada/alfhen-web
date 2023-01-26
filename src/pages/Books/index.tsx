@@ -6,8 +6,9 @@ import { AiOutlineHome, AiOutlineUser, AiOutlineSearch } from 'react-icons/ai';
 
 import { Input } from '../../components/Input';
 import YourBooks from '../../components/YourBooks';
+import Header from '../../components/Header';
 
-import { Container, Footer, Header } from './styles';
+import { Container, Footer } from './styles';
 import { Link } from 'react-router-dom';
 
 export default function Books() {
@@ -42,18 +43,16 @@ export default function Books() {
 		setSearchTerm(event.target.value);
 	}
 
-	// console.log(user);
 	return (
 		<>
 			<Container>
-				<Header>
-					<h3>Seus livros</h3>
-					<Input
-						placeholder='Busque um livro que está lendo'
-						value={searchTerm}
-						onChange={handleSearchTermChange}
-					/>
-				</Header>
+
+				<Header
+					title='Seus livros'
+					searchTerm={searchTerm}
+					onChange={handleSearchTermChange}
+					placeholder='Busque um livro que está lendo'
+				/>
 
 				<YourBooks books={yourBooks} />
 
