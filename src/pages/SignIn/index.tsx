@@ -1,6 +1,7 @@
 import backgroundImage from '../../assets/images/background-book.jpg';
 import logo from '../../assets/images/logo.svg';
-import loginButton from '../../assets/images/login-button.svg';
+
+import { BsFillArrowRightSquareFill } from 'react-icons/bs';
 
 import { AuthContext } from '../../contexts/AuthContext';
 
@@ -65,7 +66,7 @@ export default function SignIn() {
 				/>
 
 				<button type='submit' disabled={!isFormValid}>
-					<img src={loginButton} alt="Login" />
+					<BsFillArrowRightSquareFill color='#E22D2D' size={48}/>
 				</button>
 
 				<Link to="/signup">

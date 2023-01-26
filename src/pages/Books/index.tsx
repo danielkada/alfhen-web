@@ -2,14 +2,11 @@ import{ useContext, useState, ChangeEvent } from 'react';
 
 import { AuthContext } from '../../contexts/AuthContext';
 
-import { AiOutlineHome, AiOutlineUser, AiOutlineSearch } from 'react-icons/ai';
-
-import { Input } from '../../components/Input';
 import YourBooks from '../../components/YourBooks';
 import Header from '../../components/Header';
 
-import { Container, Footer } from './styles';
-import { Link } from 'react-router-dom';
+import { Container } from './styles';
+import Footer from '../Footer';
 
 export default function Books() {
 	const { logout } = useContext(AuthContext);
@@ -59,11 +56,7 @@ export default function Books() {
 				<button type='button' onClick={logout}>Sair</button>
 			</Container>
 
-			<Footer>
-				<Link to='/books'><AiOutlineUser size={26} color='#E22D2D'/></Link>
-				<Link to='/books'><AiOutlineHome size={26} color='#E22D2D'/></Link>
-				<Link to='/books'><AiOutlineSearch size={26} color='#E22D2D'/></Link>
-			</Footer>
+			<Footer />
 		</>
 
 	);
