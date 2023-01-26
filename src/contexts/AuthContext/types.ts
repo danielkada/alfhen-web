@@ -7,6 +7,8 @@ export interface IUser {
 }
 
 export interface IContext extends IUser {
+  isAuthenticate: boolean | null;
+  token: string | null | undefined;
   authenticate: (username: string, password: string) => Promise<void>
   logout: () => void;
 }
@@ -17,4 +19,8 @@ export interface IAuthProvider {
 
 export interface ITokenDecode {
   exp: number;
+}
+
+export interface ILogout {
+  logout: () => void;
 }

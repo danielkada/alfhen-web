@@ -1,17 +1,29 @@
 import { AxiosError } from 'axios';
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import SessionService from '../../services/SessionService';
 
 import { IAuthProvider, IContext, IUser } from './types';
 
-import { getTokenLocalStorage, getUserLocalStorage, setTokenLocalStorage, setUserLocalStorage } from './utils';
+import useAuth from './utils';
 
 export const AuthContext = createContext<IContext>({} as IContext);
 
 export function AuthProvider({ children }: IAuthProvider ) {
 	const [user, setUser] = useState<IUser | null>(null);
-	const [token, setToken] = useState<string | null>(null);
+	const [token, setToken] = useState<string | null | undefined>(null);
+
+	const isAuthenticate = !!user && !!token;
+
+	const navigate = useNavigate();
+
+	const {
+		getUserLocalStorage,
+		getTokenLocalStorage,
+		setUserLocalStorage,
+		setTokenLocalStorage
+	} = useAuth();
 
 	async function authenticate(username: string, password: string) {
 		try {
@@ -22,6 +34,8 @@ export function AuthProvider({ children }: IAuthProvider ) {
 
 			setUserLocalStorage(data.user);
 			setTokenLocalStorage(data.token);
+
+			navigate('/books');
 		} catch(error) {
 			if (error instanceof AxiosError) {
 				console.log(error.response?.data);
@@ -32,23 +46,33 @@ export function AuthProvider({ children }: IAuthProvider ) {
 		}
 	}
 
-	function logout() {
+	const logout = useCallback(() => {
 		setUser(null);
-		setUserLocalStorage(null);
-		setTokenLocalStorage(null);
-	}
+
+		localStorage.removeItem('u');
+		localStorage.removeItem('t');
+
+		navigate('/signin');
+	}, [navigate]);
 
 	useEffect(() => {
-		const userLocalStorage = getUserLocalStorage();
-		const tokenLocalStorage = getTokenLocalStorage(logout);
+		const userLocalStorage: IUser | null = getUserLocalStorage();
+		const tokenLocalStorage: string | null | undefined = getTokenLocalStorage(() => logout);
 
-		console.log(userLocalStorage);
-		console.log(tokenLocalStorage);
-	}, []);
+		if (!(userLocalStorage || tokenLocalStorage)) {
+			setUser(null);
+			setToken(null);
+		}
+
+		setUser(userLocalStorage);
+		setToken(tokenLocalStorage);
+	}, [getUserLocalStorage, getTokenLocalStorage, logout]);
 
 	return (
 		<AuthContext.Provider value={{
 			...user,
+			isAuthenticate,
+			token,
 			authenticate,
 			logout
 		}}>
