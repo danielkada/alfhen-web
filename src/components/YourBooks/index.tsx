@@ -1,5 +1,3 @@
-import logo from '../../assets/images/logo.svg';
-
 import { YourBooksProps } from './types';
 
 import { Book, Container } from './styles';
@@ -9,12 +7,12 @@ export default function YourBooks({ books }: YourBooksProps) {
 		<Container>
 			{books.map((book) => (
 				<Book key={book.id}>
-					<div className="info">
-						<img width={50} src={logo} alt="Cover" />
+					<div className="info img">
+						<img src={book.img} alt="Cover" />
 					</div>
 
 
-					<div className="info">
+					<div className="info number-of-pages">
 						<span>{book.numberOfPages}</span>
 					</div>
 

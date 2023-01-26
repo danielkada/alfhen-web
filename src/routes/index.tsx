@@ -5,6 +5,7 @@ import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
 
 import Books from '../pages/Books';
+import GoogleBooks from '../pages/GoogleBooks';
 import Home from '../pages/Home';
 import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
@@ -33,6 +34,7 @@ export default function Router() {
 
 			<Route element={<PrivateRoute />}>
 				<Route path="/books" element={<Books /> } />
+				<Route path="/search" element={<GoogleBooks /> } />
 			</Route>
 		</Routes>
 	);

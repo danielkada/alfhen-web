@@ -27,7 +27,7 @@ export default function Footer() {
 			</Link>
 
 			<Link
-				to='/books'
+				to='/search'
 				className='google-books'
 			>
 				<AiOutlineSearch

@@ -3,5 +3,6 @@ export interface YourBooksProps {
     id: number;
     name: string;
     numberOfPages: number;
+    img: string;
   }[]
 }

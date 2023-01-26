@@ -6,7 +6,7 @@ import YourBooks from '../../components/YourBooks';
 import Header from '../../components/Header';
 
 import { Container } from './styles';
-import Footer from '../Footer';
+import Footer from '../../components/Footer';
 
 export default function Books() {
 	const { logout } = useContext(AuthContext);
@@ -18,16 +18,43 @@ export default function Books() {
 			id: Math.random(),
 			name: 'A arte da guerra',
 			numberOfPages: 10,
+			img: 'https://i.pinimg.com/564x/be/1a/50/be1a50259f805345d6aa8ac0e5beca40.jpg'
 		},
 		{
 			id: Math.random(),
 			name: 'Máquina do tempo',
 			numberOfPages: 10,
+			img: 'https://i.pinimg.com/564x/be/1a/50/be1a50259f805345d6aa8ac0e5beca40.jpg'
 		},
 		{
 			id: Math.random(),
 			name: 'Harry Potter: A Ordem da Fênix',
 			numberOfPages: 10,
+			img: 'https://i.pinimg.com/564x/be/1a/50/be1a50259f805345d6aa8ac0e5beca40.jpg'
+		},
+		{
+			id: Math.random(),
+			name: 'Harry Potter: A Ordem da Fênix',
+			numberOfPages: 10,
+			img: 'https://i.pinimg.com/564x/be/1a/50/be1a50259f805345d6aa8ac0e5beca40.jpg'
+		},
+		{
+			id: Math.random(),
+			name: 'Harry Potter: A Ordem da Fênix',
+			numberOfPages: 10,
+			img: 'https://i.pinimg.com/564x/be/1a/50/be1a50259f805345d6aa8ac0e5beca40.jpg'
+		},
+		{
+			id: Math.random(),
+			name: 'Harry Potter: A Ordem da Fênix',
+			numberOfPages: 10,
+			img: 'https://i.pinimg.com/564x/be/1a/50/be1a50259f805345d6aa8ac0e5beca40.jpg'
+		},
+		{
+			id: Math.random(),
+			name: 'Harry Potter: A Ordem da Fênix',
+			numberOfPages: 10,
+			img: 'https://i.pinimg.com/564x/be/1a/50/be1a50259f805345d6aa8ac0e5beca40.jpg'
 		},
 	];
 

@@ -12,6 +12,11 @@ export const GlobalStyles = createGlobalStyle`
 
   }
 
+  body {
+    overflow-y: hidden;
+    background-color: #D2D2D2;
+  }
+
   button {
     cursor: pointer;
   }

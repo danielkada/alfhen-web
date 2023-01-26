@@ -10,8 +10,10 @@ export const Container = styled.footer`
 
   background-color: #C1C1C1;
 
-  position: absolute;
+  position: fixed;
   bottom: 0;
+
+  border-top: 1px solid #E22D2D;
 
   a {
     background: transparent;
