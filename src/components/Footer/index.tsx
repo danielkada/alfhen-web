@@ -7,7 +7,7 @@ export default function Footer() {
 	return (
 		<Container>
 			<Link
-				to='/books'
+				to='/profile'
 				className='profile'
 			>
 				<AiOutlineUser

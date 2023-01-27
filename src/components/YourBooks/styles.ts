@@ -5,7 +5,7 @@ export const Container = styled.div`
 
   overflow-y: auto;
 
-  padding: 20px 8px 20px 0;
+  padding: 20px 8px 26px 0;
 
   &::-webkit-scrollbar {
     width: 8px;

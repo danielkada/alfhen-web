@@ -51,7 +51,12 @@ export const Card = styled.div`
     object-fit: cover;
   }
 
-  button {
+  a {
+    display: flex;
+    justify-content: center;
+
+    text-decoration: none;
+
     border: none;
     background-color: transparent;
 

@@ -4,9 +4,12 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 
 import { Card, CardsContainer, Container } from './styles';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function GoogleBooks() {
 	const [searchTerm, setSearchTerm] = useState('');
+
+	const navigate = useNavigate();
 
 	const books = [
 		{
@@ -88,9 +91,9 @@ export default function GoogleBooks() {
 								width={100}
 							/>
 
-							<button type='button'>
-              Informações
-							</button>
+							<Link to={'/information'} state={{ book }}>
+                Informações
+							</Link>
 						</Card>
 					))}
 

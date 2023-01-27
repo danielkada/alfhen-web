@@ -7,14 +7,15 @@ export const GlobalStyles = createGlobalStyle`
     outline: 0;
     box-sizing: border-box;
 
-    font-size: 16px;
-    font-family: 'Inter', sans-serif;
 
   }
 
   body {
     overflow-y: hidden;
     background-color: #D2D2D2;
+
+    font-size: 16px;
+    font-family: 'Inter', sans-serif;
   }
 
   button {
