@@ -6,8 +6,6 @@ export const GlobalStyles = createGlobalStyle`
     padding: 0;
     outline: 0;
     box-sizing: border-box;
-
-
   }
 
   body {
@@ -15,7 +13,7 @@ export const GlobalStyles = createGlobalStyle`
     background-color: #D2D2D2;
 
     font-size: 16px;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Acme', sans-serif;
   }
 
   button {
