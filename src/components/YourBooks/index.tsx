@@ -1,22 +1,29 @@
-import { YourBooksProps } from './types';
+import { AiOutlineBook } from 'react-icons/ai';
+
+import { ReadingsProps } from '../../pages/Readings/types';
 
 import { Book, Container } from './styles';
 
-export default function YourBooks({ books }: YourBooksProps) {
+export default function YourBooks({ readings }: ReadingsProps) {
 	return (
 		<Container>
-			{books.map((book) => (
-				<Book key={book.id}>
+			{readings.map((reading) => (
+				<Book key={reading.id}>
 					<div className="info img">
-						<img src={book.img} alt="Cover" />
+						{reading.book.imageURL
+							? (
+								<img src={reading.book.imageURL as string} alt="Cover" />
+							): (
+								<AiOutlineBook size={32}/>
+							)}
 					</div>
 
 
 					<div className="info number-of-pages">
-						<span>{book.numberOfPages}</span>
+						<span>{reading.book.numberOfPages}</span>
 					</div>
 
-					<h6>{book.name}</h6>
+					<h6>{reading.book.title}</h6>
 				</Book>
 			))}
 
