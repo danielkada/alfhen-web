@@ -1,6 +1,7 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import { ContainerStyledProps } from './types';
 
-export const Container = styled.footer`
+export const Container = styled.footer<ContainerStyledProps>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -15,8 +16,11 @@ export const Container = styled.footer`
 
   border-top: 1px solid #E22D2D;
 
-  a {
-    background: transparent;
+  button {
+    margin-left: 32px;
+
+    background-color: transparent;
+
     border: none;
 
     transition: opacity 0.2s ease-in-out;
@@ -30,11 +34,21 @@ export const Container = styled.footer`
     }
   }
 
-  button {
-    margin-left: 32px;
+  .profile {
+    ${({ selected }) => selected === 'profile' && css`
+      opacity: 0.5;
+    `}
+  }
 
-    background-color: transparent;
+  .readings {
+    ${({ selected }) => selected === 'readings' && css`
+      opacity: 0.5;
+    `}
+  }
 
-    border: none;
+  .books {
+    ${({ selected }) => selected === 'books' && css`
+      opacity: 0.5;
+    `}
   }
 `;

@@ -4,18 +4,16 @@ import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
 
 import { AuthContext } from '../contexts/AuthContext';
 
-import Readings from '../pages/Readings';
-import GoogleBooks from '../pages/GoogleBooks';
 import Home from '../pages/Home';
 import Information from '../pages/Information';
-import Profile from '../pages/Profile';
 import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
+import Dashboard from '../pages/Dashboard';
 
 function NotPrivateRoute() {
 	const { isAuthenticate } = useContext(AuthContext);
 
-	return isAuthenticate ? <Navigate to='/readings' /> : <Outlet />;
+	return isAuthenticate ? <Navigate to='/dashboard' /> : <Outlet />;
 }
 
 function PrivateRoute() {
@@ -37,9 +35,7 @@ export default function Router() {
 			</Route>
 
 			<Route element={<PrivateRoute />}>
-				<Route path="/readings" element={<Readings /> } />
-				<Route path="/search" element={<GoogleBooks /> } />
-				<Route path="/profile" element={<Profile /> } />
+				<Route path="/dashboard" element={<Dashboard /> } />
 				<Route path="/information" element={<Information /> } />
 			</Route>
 		</Routes>

@@ -1,38 +1,43 @@
 import { AiOutlineHome, AiOutlineUser, AiOutlineSearch, AiOutlineLogout } from 'react-icons/ai';
-import { Link } from 'react-router-dom';
 
 import { Container } from './styles';
 import { FooterProps } from './types';
 
-export default function Footer({ onModalVisibility }: FooterProps) {
+export default function Footer({ selected, onSelectedChange, onModalVisibility }: FooterProps) {
 	return (
-		<Container>
-			<Link
-				to='/profile'
+		<Container selected={selected}>
+			<button
+				type='button'
+				onClick={() => onSelectedChange({ page: 'profile'})}
+				className='profile'
 			>
 				<AiOutlineUser
 					size={26}
 					color='#E22D2D'
 				/>
-			</Link>
+			</button>
 
-			<Link
-				to='/readings'
+			<button
+				type='button'
+				onClick={() => onSelectedChange({ page: 'readings'})}
+				className='readings'
 			>
 				<AiOutlineHome
 					size={26}
 					color='#E22D2D'
 				/>
-			</Link>
+			</button>
 
-			<Link
-				to='/search'
+			<button
+				type='button'
+				onClick={() => onSelectedChange({ page: 'books'})}
+				className='books'
 			>
 				<AiOutlineSearch
 					size={26}
 					color='#E22D2D'
 				/>
-			</Link>
+			</button>
 
 			<button onClick={onModalVisibility}>
 				<AiOutlineLogout

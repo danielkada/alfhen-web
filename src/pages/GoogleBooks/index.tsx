@@ -1,7 +1,6 @@
 import { ChangeEvent, useState } from 'react';
 
 import Header from '../../components/Header';
-import Footer from '../../components/Footer';
 
 import { Card, CardsContainer, Container } from './styles';
 import { Link } from 'react-router-dom';
@@ -98,7 +97,6 @@ export default function GoogleBooks() {
 				</CardsContainer>
 
 			</Container>
-			<Footer />
 		</>
 
 	);

@@ -18,5 +18,6 @@ export const GlobalStyles = createGlobalStyle`
 
   button {
     cursor: pointer;
+    font-family: 'Acme', sans-serif;
   }
 `;

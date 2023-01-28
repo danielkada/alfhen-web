@@ -1,4 +1,3 @@
-import Footer from '../../components/Footer';
 
 import { Container } from './styles';
 
@@ -29,7 +28,6 @@ export default function Profile() {
 					</div>
 				</form>
 			</Container>
-			<Footer />
 		</>
 
 	);
