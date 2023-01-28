@@ -25,11 +25,14 @@ export const InputContainer = styled.form`
   margin-top: 168px;
 
   button {
+    display: flex;
+
     border: none;
 
     margin-top: 70px;
 
     transition: opacity 0.2s ease-in-out;
+    background-color: transparent;
 
     &:hover {
       opacity: 0.5;

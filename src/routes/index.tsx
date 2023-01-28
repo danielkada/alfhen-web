@@ -15,7 +15,7 @@ import SignUp from '../pages/SignUp';
 function NotPrivateRoute() {
 	const { isAuthenticate } = useContext(AuthContext);
 
-	return isAuthenticate ? <Navigate to='/books' /> : <Outlet />;
+	return isAuthenticate ? <Navigate to='/readings' /> : <Outlet />;
 }
 
 function PrivateRoute() {
@@ -37,7 +37,7 @@ export default function Router() {
 			</Route>
 
 			<Route element={<PrivateRoute />}>
-				<Route path="/books" element={<Readings /> } />
+				<Route path="/readings" element={<Readings /> } />
 				<Route path="/search" element={<GoogleBooks /> } />
 				<Route path="/profile" element={<Profile /> } />
 				<Route path="/information" element={<Information /> } />

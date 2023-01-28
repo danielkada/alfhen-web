@@ -1,6 +1,8 @@
-import { Input } from '../Input';
-import { Container } from './styles';
+import SearchInput from '../SearchInput';
+
 import { HeaderProps } from './types';
+
+import { Container } from './styles';
 
 export default function Header({
 	title,
@@ -12,7 +14,7 @@ export default function Header({
 		<Container>
 			<h3>{title}</h3>
 
-			<Input
+			<SearchInput
 				placeholder={placeholder}
 				value={searchTerm}
 				onChange={onChange}

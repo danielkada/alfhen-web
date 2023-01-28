@@ -35,7 +35,7 @@ export function AuthProvider({ children }: IAuthProvider ) {
 			setUserLocalStorage(data.user);
 			setTokenLocalStorage(data.token);
 
-			navigate('/books');
+			navigate('/readings');
 		} catch(error) {
 			if (error instanceof AxiosError) {
 				console.log(error.response?.data);

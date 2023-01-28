@@ -11,19 +11,16 @@ import useAuth from '../../contexts/AuthContext/utils';
 
 import { Container } from './styles';
 import { ReadingProps } from './types';
+import SignOutModal from '../../components/SignOutModal';
 
 export default function Books() {
 	const { logout } = useContext(AuthContext);
+	const { getTokenLocalStorage } = useAuth();
 
 	const [searchTerm, setSearchTerm] = useState('');
 	const [readings, setReadings] = useState<Array<ReadingProps>>([]);
 
-	const { getTokenLocalStorage } = useAuth();
-
-	//const filteredBooks = useMemo(() => yourBooks.filter((book) => {
-	//	book.name.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase());
-	//}
-	//), [yourBooks, searchTerm]);
+	const [isVisible, setIsVisible] = useState(false);
 
 	const filteredReadings = useMemo(() => readings.filter((reading) => (
 		reading.book.title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -34,6 +31,10 @@ export default function Books() {
 		setSearchTerm(event.target.value);
 	}
 
+	function handleModalVisibility() {
+		setIsVisible((prevState) => prevState === true ? false : true);
+	}
+
 	useEffect(() => {
 		async function loadReadings() {
 			const token = getTokenLocalStorage(logout);
@@ -41,29 +42,30 @@ export default function Books() {
 
 			const { data } = await readingService.list();
 			setReadings(data);
-			console.log(data);
 		}
 
 		loadReadings();
 	}, [getTokenLocalStorage, logout]);
 
+	console.log(isVisible);
+
 	return (
 		<>
 			<Container>
 
+				<SignOutModal onCancel={handleModalVisibility} isVisible={isVisible} />
+
 				<Header
-					title='Seus livros'
+					title='Suas leituras'
 					searchTerm={searchTerm}
 					onChange={handleSearchTermChange}
 					placeholder='Busque um livro que está lendo'
 				/>
 
 				<YourBooks readings={filteredReadings} />
-
-				<button type='button' onClick={logout}>Sair</button>
 			</Container>
 
-			<Footer />
+			<Footer onModalVisibility={handleModalVisibility} />
 		</>
 
 	);

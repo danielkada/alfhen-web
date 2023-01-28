@@ -29,4 +29,12 @@ export const Container = styled.footer`
       margin-left: 32px;
     }
   }
+
+  button {
+    margin-left: 32px;
+
+    background-color: transparent;
+
+    border: none;
+  }
 `;

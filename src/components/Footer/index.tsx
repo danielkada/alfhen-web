@@ -1,14 +1,14 @@
-import { AiOutlineHome, AiOutlineUser, AiOutlineSearch } from 'react-icons/ai';
+import { AiOutlineHome, AiOutlineUser, AiOutlineSearch, AiOutlineLogout } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 
 import { Container } from './styles';
+import { FooterProps } from './types';
 
-export default function Footer() {
+export default function Footer({ onModalVisibility }: FooterProps) {
 	return (
 		<Container>
 			<Link
 				to='/profile'
-				className='profile'
 			>
 				<AiOutlineUser
 					size={26}
@@ -17,8 +17,7 @@ export default function Footer() {
 			</Link>
 
 			<Link
-				to='/books'
-				className='books'
+				to='/readings'
 			>
 				<AiOutlineHome
 					size={26}
@@ -28,13 +27,20 @@ export default function Footer() {
 
 			<Link
 				to='/search'
-				className='google-books'
 			>
 				<AiOutlineSearch
 					size={26}
 					color='#E22D2D'
 				/>
 			</Link>
+
+			<button onClick={onModalVisibility}>
+				<AiOutlineLogout
+					size={26}
+					color='#E22D2D'
+				/>
+			</button>
 		</Container>
+
 	);
 }
