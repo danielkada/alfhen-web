@@ -1,4 +1,4 @@
-import HttpClient from './HttpClient';
+import HttpClient from './utils/HttpClient';
 
 export default class ReadingService {
 	httpClient: HttpClient;

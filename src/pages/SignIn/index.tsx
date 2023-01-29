@@ -19,6 +19,8 @@ export default function SignIn() {
 	const { authenticate } = useContext(AuthContext);
 
 	const isFormValid = username.length > 0 && password.length > 0;
+	const iconColor = isFormValid ? '#E22D2D' : '#B5B3B3';
+
 
 	function handleUsernameChange(event: ChangeEvent<HTMLInputElement>) {
 		const { value } = event.target;
@@ -66,7 +68,7 @@ export default function SignIn() {
 				/>
 
 				<button type='submit' disabled={!isFormValid}>
-					<BsFillArrowRightSquareFill color='#E22D2D' size={48}/>
+					<BsFillArrowRightSquareFill  color={iconColor} size={48}/>
 				</button>
 
 				<Link to="/signup">

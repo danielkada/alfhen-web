@@ -29,11 +29,16 @@ export default function Readings() {
 
 	useEffect(() => {
 		async function loadReadings() {
-			const token = getTokenLocalStorage(logout);
-			const readingService = new ReadingService(token as string);
+			try {
+				const token = getTokenLocalStorage(logout);
+				const readingService = new ReadingService(token as string);
 
-			const { data } = await readingService.list();
-			setReadings(data);
+				const { data } = await readingService.list();
+				setReadings(data);
+			} catch(error) {
+				console.log(error);
+			}
+
 		}
 
 		loadReadings();

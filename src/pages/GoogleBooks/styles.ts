@@ -32,17 +32,38 @@ export const CardsContainer = styled.div`
 export const Card = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
 
-  padding-bottom: 12px;
+  border-radius: 6px;
 
-  width: 140px;
-  height: 200px;
+  width: 180px;
+  height: 240px;
 
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
 
   background-color: #D9D9D9;
 
   margin: 10px;
+
+  .text-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 20px;
+    width: 100%;
+
+    border-radius: 6px;
+
+    padding: 20px 0;
+
+    background-color: #D2D2D2;
+
+    h3 {
+      text-align: center;
+    }
+  }
 
   img {
     width: 140px;
@@ -52,15 +73,10 @@ export const Card = styled.div`
   }
 
   a {
-    display: flex;
-    justify-content: center;
-
     text-decoration: none;
 
     border: none;
     background-color: transparent;
-
-    margin-top: 22px;
 
     color: #E22D2D;
 

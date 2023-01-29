@@ -31,6 +31,7 @@ export default function useAuth() {
 			return null;
 		}
 
+
 		if (json) {
 			const token: string = JSON.parse(json);
 			const tokenDecode: ITokenDecode = jwtDecode(token);

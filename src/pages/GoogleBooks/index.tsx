@@ -1,74 +1,42 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useContext, useState } from 'react';
 
 import Header from '../../components/Header';
+import { AiOutlineBook } from 'react-icons/ai';
 
-import { Card, CardsContainer, Container } from './styles';
+import GoogleBooksService from '../../services/GoogleBooksService';
+
 import { Link } from 'react-router-dom';
+import { Card, CardsContainer, Container } from './styles';
+import { AuthContext } from '../../contexts/AuthContext';
+import { GoogleBookProps } from './types';
 
 export default function GoogleBooks() {
 	const [searchTerm, setSearchTerm] = useState('');
+	const [googleBooks, setGoogleBooks] = useState<GoogleBookProps[]>();
 
-	const books = [
-		{
-			id: Math.random(),
-			name: 'Teste',
-			img: 'https://i.pinimg.com/564x/be/1a/50/be1a50259f805345d6aa8ac0e5beca40.jpg'
-		},
-		{
-			id: Math.random(),
-			name: 'Teste',
-			img: 'https://i.pinimg.com/564x/05/7f/d5/057fd503a34f67680a4ad2b9ab3d55ec.jpg'
-		},
-		{
-			id: Math.random(),
-			name: 'Teste',
-			img: 'https://i.pinimg.com/564x/ed/81/c3/ed81c38360e66b3e3daac095496ebcfe.jpg'
-		},
-		{
-			id: Math.random(),
-			name: 'Teste',
-			img: 'https://i.pinimg.com/564x/ed/81/c3/ed81c38360e66b3e3daac095496ebcfe.jpg'
-		},
-		{
-			id: Math.random(),
-			name: 'Teste',
-			img: 'https://i.pinimg.com/564x/ed/81/c3/ed81c38360e66b3e3daac095496ebcfe.jpg'
-		},
-		{
-			id: Math.random(),
-			name: 'Teste',
-			img: 'https://i.pinimg.com/564x/ed/81/c3/ed81c38360e66b3e3daac095496ebcfe.jpg'
-		},
-		{
-			id: Math.random(),
-			name: 'Teste',
-			img: 'https://i.pinimg.com/564x/ed/81/c3/ed81c38360e66b3e3daac095496ebcfe.jpg'
-		},
-		{
-			id: Math.random(),
-			name: 'Teste',
-			img: 'https://i.pinimg.com/564x/ed/81/c3/ed81c38360e66b3e3daac095496ebcfe.jpg'
-		},
-		{
-			id: Math.random(),
-			name: 'Teste',
-			img: 'https://i.pinimg.com/564x/ed/81/c3/ed81c38360e66b3e3daac095496ebcfe.jpg'
-		},
-		{
-			id: Math.random(),
-			name: 'Teste',
-			img: 'https://i.pinimg.com/564x/ed/81/c3/ed81c38360e66b3e3daac095496ebcfe.jpg'
-		},
-	];
+	const { token } = useContext(AuthContext);
+
+	const googleBooksService = new GoogleBooksService(token as string);
 
 	//const filteredBooks = useMemo(() => yourBooks.filter((book) => {
 	//	book.name.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase());
 	//}
 	//), [yourBooks, searchTerm]);
 
-	function handleSearchTermChange(event: ChangeEvent<HTMLInputElement>) {
-		setSearchTerm(event.target.value);
+	async function handleSearchTermChange(event: ChangeEvent<HTMLInputElement>) {
+		const { value } = event.target;
+
+		setSearchTerm(value);
 	}
+
+	async function handleSearchBooks() {
+		if (searchTerm.length > 0) {
+			const { data: books } = await googleBooksService.findByTitle(searchTerm);
+			console.log(books.items);
+			setGoogleBooks(books.items);
+		}
+	}
+
 	return (
 		<>
 			<Container>
@@ -77,23 +45,36 @@ export default function GoogleBooks() {
 					onChange={handleSearchTermChange}
 					searchTerm={searchTerm}
 					placeholder='Digite o nome de um livro'
+					googleBooks
+					onSearchGoogleBooks={handleSearchBooks}
 				/>
 
 				<CardsContainer>
-					{books.map((book) => (
+					{googleBooks?.map((book) => (
 						<Card key={book.id}>
-							<img
-								src={book.img}
-								alt="Cover"
-								width={100}
-							/>
+							<div className="text-container">
+								<h3>{book.title}</h3>
+							</div>
 
-							<Link to={'/information'} state={{ book }}>
-                Informações
-							</Link>
+							{book.imageURL
+								? (
+									<img
+										src={book.imageURL}
+										alt="Cover"
+										width={100}
+									/>
+								) : (
+									<AiOutlineBook size={64} />
+								)}
+
+							<div className="text-container">
+								<Link to={'/information'} state={{ book }}>
+                  Informações
+								</Link>
+							</div>
+
 						</Card>
 					))}
-
 				</CardsContainer>
 
 			</Container>

@@ -5,4 +5,6 @@ export interface HeaderProps {
   searchTerm: string;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
   placeholder: string;
+  googleBooks?: boolean;
+  onSearchGoogleBooks?: () => void;
 }

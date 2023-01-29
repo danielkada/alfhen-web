@@ -33,6 +33,21 @@ export const Container = styled.div<ContainerStyledProps>`
     font-size: 16px;
   }
 
+  button {
+    border: none;
+    border-radius: 0 6px 6px 0;
+
+    background-color: #E22D2D;
+
+    height: 42px;
+
+    transition: background-color 0.2s ease-in-out;
+
+    &:hover {
+      background-color: rgba(226, 45, 45, 0.6);
+    }
+  }
+
   .icon-container {
     display: flex;
     align-items: center;

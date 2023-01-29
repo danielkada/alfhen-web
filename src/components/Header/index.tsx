@@ -8,7 +8,9 @@ export default function Header({
 	title,
 	searchTerm,
 	onChange,
-	placeholder
+	placeholder,
+	googleBooks = false,
+	onSearchGoogleBooks,
 }: HeaderProps) {
 	return (
 		<Container>
@@ -18,6 +20,8 @@ export default function Header({
 				placeholder={placeholder}
 				value={searchTerm}
 				onChange={onChange}
+				googleBooks={googleBooks}
+				onSearchGoogleBooks={onSearchGoogleBooks}
 			/>
 		</Container>
 	);

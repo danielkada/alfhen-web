@@ -9,14 +9,16 @@ import { Container } from './styles';
 export default function SearchInput({
 	placeholder,
 	value,
-	onChange
+	onChange,
+	googleBooks = false,
+	onSearchGoogleBooks
 }: SearchInputProps) {
 	const [isFocused, setIsFocused] = useState<boolean>(false);
 
 	const iconColor = isFocused ? '#E22D2D' : '#B5B3B3';
 
 	return (
-		<Container isFocused={isFocused}>
+		<Container googleBooks={googleBooks} isFocused={isFocused}>
 			<input
 				placeholder={placeholder}
 				value={value}
@@ -25,9 +27,16 @@ export default function SearchInput({
 				onBlur={() => setIsFocused(false)}
 			/>
 
-			<div className="icon-container">
-				<BiSearchAlt color={iconColor} size={26} />
-			</div>
+			{googleBooks ? (
+				<button onClick={onSearchGoogleBooks} type='button' className="icon-container">
+					<BiSearchAlt color='#fff' size={26} />
+				</button>
+			) : (
+				<div className="icon-container">
+					<BiSearchAlt color={iconColor} size={26} />
+				</div>
+			)}
+
 		</Container>
 	);
 }
