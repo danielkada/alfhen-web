@@ -30,6 +30,34 @@ export const CardsContainer = styled.div`
   }
 `;
 
+export const NoBooks = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+
+  strong {
+    color: #E22D2D;
+
+    word-wrap: break-word;
+  }
+
+  p {
+    width: 80%;
+
+    color: #484848;
+    font-size: 18px;
+
+    word-wrap: break-word;
+
+    span {
+      margin-top: 4px;
+      margin-left: 8px;
+    }
+  }
+`;
+
 export const Card = styled(Link)`
   display: flex;
   flex-direction: column;
