@@ -46,6 +46,11 @@ export const Container = styled.div<ContainerStyledProps>`
     &:hover {
       background-color: rgba(226, 45, 45, 0.6);
     }
+
+    &[disabled] {
+      background-color: #B5B3B3 !important;
+      cursor: default;
+    }
   }
 
   .icon-container {

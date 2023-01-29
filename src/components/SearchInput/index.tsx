@@ -28,7 +28,7 @@ export default function SearchInput({
 			/>
 
 			{googleBooks ? (
-				<button onClick={onSearchGoogleBooks} type='button' className="icon-container">
+				<button disabled={value.length === 0} onClick={onSearchGoogleBooks} type='button' className="icon-container">
 					<BiSearchAlt color='#fff' size={26} />
 				</button>
 			) : (

@@ -20,7 +20,7 @@ export default function YourBooks({ readings }: ReadingsProps) {
 
 
 					<div className="info number-of-pages">
-						<span>{reading.book.numberOfPages}</span>
+						<span>{reading.current_page}</span>
 					</div>
 
 					<h6>{reading.book.title}</h6>

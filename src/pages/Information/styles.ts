@@ -39,7 +39,7 @@ export const Container = styled.div`
 
     .img {
       display: flex;
-      justify-content: space-between;
+      justify-content: space-around;
 
       margin-top: 32px;
 

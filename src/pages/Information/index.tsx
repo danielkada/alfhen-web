@@ -1,14 +1,43 @@
+import { ChangeEvent, useState, useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { TbArrowBack } from 'react-icons/tb';
+import { AiOutlineBook } from 'react-icons/ai';
 
 import { ButtonContainer, Container } from './styles';
+import ReadingService from '../../services/ReadingService';
+import { AuthContext } from '../../contexts/AuthContext';
 
 export default function Information() {
+	const [currentPage, setCurrentPage] = useState<string>('0');
+
 	const location = useLocation();
 	const { book } = location.state;
 
+	const { token } = useContext(AuthContext);
+
+	const readingsService = new ReadingService(token as string);
+
 	const navigate = useNavigate();
+
+	function handleCurrentPageChange(event: ChangeEvent<HTMLInputElement>) {
+		const { value } = event.target;
+
+		if (value > book.numberOfPages) {
+			return;
+		}
+
+		setCurrentPage(event.target.value);
+	}
+
+	async function handleCreateReading() {
+		await readingsService.create({
+			book_id: book.id,
+			current_page: currentPage
+		});
+
+		navigate('/dashboard');
+	}
 
 	return (
 		<Container>
@@ -24,18 +53,18 @@ export default function Information() {
 				<h3>Informações</h3>
 
 				<div className="img">
-					<img src={book?.img} alt="Cover" />
+					{book.imageURL
+						? (
+							<img
+								src={book.imageURL}
+								alt="Cover"
+								width={100}
+							/>
+						) : (
+							<AiOutlineBook color='#E22D2D' size={64} />
+						)}
 					<p className='description'>
-            Harry não é mais um garoto. Aos 15 anos, continua sofrendo a rejeição dos Dursdley, sua estranhíssima família no
-            mundo   dos trouxas, ou seja, todos os que não são bruxos. Também continua contando com Rony Weasley e Hermione
-            Granger, seus melhores amigos em Hogwarts, para levar adiante suas investigações e aventuras. Mas o bruxinho começa
-            a sentir e descobrir coisas novas, como o primeiro amor e a sexualidade. Nos volumes anteriores, J. K. Rowling mostrou
-            como Harry foi transformado em celebridade no mundo da magia por ter derrotado, ainda bebê, Voldemort, o todo-poderoso
-            bruxo das trevas que assassinou seus pais. Neste quinto livro da saga, o protagonista, numa crise típica da adolescência, tem
-            ataques de mau humor com a perseguição da imprensa, que o segue por todos os lugares e chega a inventar declarações que
-            nunca deu. Harry vai enfrentar as investidas de Voldemort sem a proteção de Dumbledore, já que o diretor de Hogwarts é
-             afastado da escola. E vai ser sem a ajuda de seu protetor que o jovem herói enfrentará descobertas sobre a personalidade
-            controversa de seu pai, Tiago Potter, e a morte de alguém muito próximo.
+						{book.description}
 					</p>
 				</div>
 
@@ -43,31 +72,31 @@ export default function Information() {
 					<div className="informations">
 						<div className="text-container">
 							<p>Nome: </p>
-							<span>{book.name}</span>
+							<span>{book.title}</span>
 						</div>
 						<div className="text-container">
 							<p>Autors: </p>
-							<span>{book.name}</span>
+							<span>{book.authors}</span>
 						</div>
 						<div className="text-container">
-							<p>Editora: </p>
-							<span>{book.name}</span>
+							<p>Data de Publicação: </p>
+							<span>{book.publishedDate}</span>
 						</div>
 						<div className="text-container">
 							<p>Número de Páginas: </p>
-							<span>{book.name}</span>
+							<span>{book.numberOfPages}</span>
 						</div>
 					</div>
 
 					<div className="number-of-pages">
 						<span>Página atual: </span>
-						<input type={'number'} />
-						<span> /704</span>
+						<input value={currentPage} onChange={handleCurrentPageChange} type={'number'} />
+						<span> /{book.numberOfPages}</span>
 					</div>
 				</div>
 
 				<ButtonContainer>
-					<button type='submit'>
+					<button onClick={handleCreateReading} type='button'>
             Adicionar livro
 					</button>
 				</ButtonContainer>
