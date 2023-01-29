@@ -1,14 +1,15 @@
-import { ChangeEvent, useContext, useState } from 'react';
+import { ChangeEvent, useContext, useState, useMemo } from 'react';
 
 import Header from '../../components/Header';
 import { AiOutlineBook } from 'react-icons/ai';
 
 import GoogleBooksService from '../../services/GoogleBooksService';
 
-import { Link } from 'react-router-dom';
-import { Card, CardsContainer, Container } from './styles';
 import { AuthContext } from '../../contexts/AuthContext';
+
 import { GoogleBookProps } from './types';
+
+import { Card, CardsContainer, Container } from './styles';
 
 export default function GoogleBooks() {
 	const [searchTerm, setSearchTerm] = useState('');
@@ -18,10 +19,9 @@ export default function GoogleBooks() {
 
 	const googleBooksService = new GoogleBooksService(token as string);
 
-	//const filteredBooks = useMemo(() => yourBooks.filter((book) => {
-	//	book.name.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase());
-	//}
-	//), [yourBooks, searchTerm]);
+	const filteredBooks = useMemo(() => googleBooks?.filter((book) => (
+		book.title.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase())
+	)), [googleBooks, searchTerm]);
 
 	async function handleSearchTermChange(event: ChangeEvent<HTMLInputElement>) {
 		const { value } = event.target;
@@ -32,7 +32,6 @@ export default function GoogleBooks() {
 	async function handleSearchBooks() {
 		if (searchTerm.length > 0) {
 			const { data: books } = await googleBooksService.findByTitle(searchTerm);
-			console.log(books.items);
 			setGoogleBooks(books.items);
 		}
 	}
@@ -50,10 +49,10 @@ export default function GoogleBooks() {
 				/>
 
 				<CardsContainer>
-					{googleBooks?.map((book) => (
-						<Card key={book.id}>
+					{filteredBooks?.map((book) => (
+						<Card to={'/information'} state={{ book }} key={book.id}>
 							<div className="text-container">
-								<h3>{book.title}</h3>
+								<h4>{book.title}</h4>
 							</div>
 
 							{book.imageURL
@@ -64,14 +63,10 @@ export default function GoogleBooks() {
 										width={100}
 									/>
 								) : (
-									<AiOutlineBook size={64} />
+									<AiOutlineBook color='#E22D2D' size={64} />
 								)}
 
-							<div className="text-container">
-								<Link to={'/information'} state={{ book }}>
-                  Informações
-								</Link>
-							</div>
+
 
 						</Card>
 					))}

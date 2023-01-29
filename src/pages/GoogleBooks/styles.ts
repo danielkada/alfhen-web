@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 export const Container = styled.div`
@@ -29,45 +30,53 @@ export const CardsContainer = styled.div`
   }
 `;
 
-export const Card = styled.div`
+export const Card = styled(Link)`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+
+  text-decoration: none;
 
   border-radius: 6px;
+  border: 1px solid rgba(226, 45, 45, 0.2);
 
   width: 180px;
   height: 240px;
+  padding: 0 16px;
+  margin: 10px;
 
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
 
   background-color: #D9D9D9;
 
-  margin: 10px;
+  transition: opacity 0.2s ease-in-out;
+
+  &:hover {
+    opacity: 0.5;
+  }
 
   .text-container {
     display: flex;
     align-items: center;
     justify-content: center;
 
-    height: 20px;
+    height: 80px;
     width: 100%;
+
+    margin-top: 20px;
 
     border-radius: 6px;
 
-    padding: 20px 0;
-
-    background-color: #D2D2D2;
-
-    h3 {
+    h4 {
       text-align: center;
+
+      color: #484848;
     }
   }
 
   img {
-    width: 140px;
-    height: 140px;
+    width: 110px;
+    height: 110px;
 
     object-fit: cover;
   }
