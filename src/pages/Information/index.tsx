@@ -42,7 +42,9 @@ export default function Information() {
 	return (
 		<Container>
 			<div className="header">
-				<button type='button' onClick={() => navigate(-1)}>
+				<button type='button' onClick={() => navigate('/dashboard', {
+					state: { selected: 'books' }
+				})}>
 					<TbArrowBack color='#E22D2D' size={26} />
 					<span>Voltar</span>
 				</button>
@@ -96,7 +98,13 @@ export default function Information() {
 				</div>
 
 				<ButtonContainer>
-					<button onClick={handleCreateReading} type='button'>
+					<button disabled={
+						currentPage === undefined
+            || currentPage.length === 0
+					}
+					onClick={handleCreateReading}
+					type='button'
+					>
             Adicionar livro
 					</button>
 				</ButtonContainer>

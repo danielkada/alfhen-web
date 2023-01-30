@@ -24,15 +24,22 @@ export const InputContainer = styled.form`
 
   margin-top: 168px;
 
-  button {
+  .to-enter {
     display: flex;
+    justify-content: center;
+    align-items: center;
 
-    border: none;
+    border: 2px solid transparent;
+    border-radius: 6px;
 
-    margin-top: 70px;
+    margin-top: 32px;
 
-    transition: opacity 0.2s ease-in-out;
-    background-color: transparent;
+    width: 390px;
+    height: 52px;
+
+    background-color: #E22D2D;
+
+    transition: all 0.2s ease-in-out;
 
     &:hover {
       opacity: 0.5;
@@ -40,7 +47,13 @@ export const InputContainer = styled.form`
 
     &[disabled] {
       cursor: default;
-      opacity: 0.5 !important;
+      background-color: transparent !important;
+
+      border: 2px solid #B5B3B3;
+
+      &:hover {
+        opacity: 1;
+      }
     }
   }
 

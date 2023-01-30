@@ -30,7 +30,8 @@ export const Container = styled.div<ContainerStyledProps>`
     background-color: #ECE3E3;
     color: #E22D2D;
 
-    font-size: 16px;
+    font-family: 'Acme', sans-serif;
+    font-size: 18px;
   }
 
   button {

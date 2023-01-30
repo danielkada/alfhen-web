@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import Footer from '../../components/Footer';
 import SignOutModal from '../../components/SignOutModal';
@@ -11,6 +12,8 @@ export default function Dashboard() {
 	const [selected, setSelected] = useState<'readings' | 'books' | 'profile'>('readings');
 	const [isVisible, setIsVisible] = useState(false);
 
+	const location = useLocation();
+
 	function handleSelectedChange({ page }: SelectedProps) {
 		setSelected(page);
 	}
@@ -18,6 +21,13 @@ export default function Dashboard() {
 	function handleModalVisibility() {
 		setIsVisible((prevState) => prevState === true ? false : true);
 	}
+
+	useEffect(() => {
+		const hasSelected = location.state?.selected;
+		if (hasSelected) {
+			setSelected(hasSelected);
+		}
+	}, [location.state?.selected]);
 
 	return (
 		<>

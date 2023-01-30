@@ -136,7 +136,7 @@ export const ButtonContainer = styled.div`
 
     &[disabled] {
       cursor: default;
-      background: rgba(226, 45, 45, 0.6) !important;
+      background: #B5B3B3 !important;
     }
   }
 

@@ -1,14 +1,15 @@
 import backgroundImage from '../../assets/images/background-book.jpg';
 import logo from '../../assets/images/logo.svg';
 
-import { BsFillArrowRightSquareFill } from 'react-icons/bs';
+import { AiOutlineUser, AiOutlineLock } from 'react-icons/ai';
+import { FaSignInAlt } from 'react-icons/fa';
 
 import { AuthContext } from '../../contexts/AuthContext';
 
 import { ChangeEvent, FormEvent, useContext, useState } from 'react';
 
 import { Link } from 'react-router-dom';
-import { Input } from '../../components/Input';
+import Input from '../../components/Input';
 
 import { Container, InputContainer } from './styles';
 
@@ -19,7 +20,7 @@ export default function SignIn() {
 	const { authenticate } = useContext(AuthContext);
 
 	const isFormValid = username.length > 0 && password.length > 0;
-	const iconColor = isFormValid ? '#E22D2D' : '#B5B3B3';
+	const iconColor = isFormValid ? '#fff' : '#B5B3B3';
 
 
 	function handleUsernameChange(event: ChangeEvent<HTMLInputElement>) {
@@ -58,6 +59,7 @@ export default function SignIn() {
 					type="text"
 					onChange={handleUsernameChange}
 					value={username}
+					IconComponent={AiOutlineUser}
 				/>
 
 				<Input
@@ -65,10 +67,12 @@ export default function SignIn() {
 					type="password"
 					onChange={handlePasswordChange}
 					value={password}
+					IconComponent={AiOutlineLock}
+					isPassword
 				/>
 
-				<button type='submit' disabled={!isFormValid}>
-					<BsFillArrowRightSquareFill  color={iconColor} size={48}/>
+				<button className='to-enter' type='submit' disabled={!isFormValid}>
+					<FaSignInAlt color={iconColor} size={36}/>
 				</button>
 
 				<Link to="/signup">

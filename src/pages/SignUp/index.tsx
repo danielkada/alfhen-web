@@ -3,7 +3,9 @@ import backgroundImage from '../../assets/images/background-book.jpg';
 import { ChangeEvent, FormEvent, useState } from 'react';
 
 import { Link } from 'react-router-dom';
-import { Input } from '../../components/Input';
+
+import { AiOutlineUser, AiOutlineLock } from 'react-icons/ai';
+import Input from '../../components/Input';
 
 import { Container, InputContainer } from './styles';
 
@@ -67,6 +69,7 @@ export default function SignUp() {
 					type="text"
 					onChange={handleUsernameChange}
 					value={username}
+					IconComponent={AiOutlineUser}
 				/>
 
 				<Input
@@ -74,6 +77,8 @@ export default function SignUp() {
 					type="password"
 					onChange={handlePasswordChange}
 					value={password}
+					IconComponent={AiOutlineLock}
+					isPassword
 				/>
 
 				<Input
@@ -81,9 +86,11 @@ export default function SignUp() {
 					type="password"
 					onChange={handleConfirmPasswordChange}
 					value={confirmPassword}
+					IconComponent={AiOutlineLock}
+					isPassword
 				/>
 
-				<button type='submit' disabled={!isFormValid}>
+				<button className='create' type='submit' disabled={!isFormValid}>
 					Começar
 				</button>
 
