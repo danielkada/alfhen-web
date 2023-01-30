@@ -27,9 +27,10 @@ export const Container = styled.div`
 
       input {
         width: 300px;
-        height: 32px;
+        height: 42px;
 
         background-color: #F0DFDF;
+        color: #E22D2D;
 
         border: 1px solid transparent;
         border-radius: 6px;
@@ -38,6 +39,10 @@ export const Container = styled.div`
 
         font-family: 'Acme', sans-serif;
         font-size: 18px;
+
+        &::placeholder {
+          color: #B5B3B3;
+        }
 
         transition: border 0.2s ease-in-out;
 
@@ -61,7 +66,7 @@ export const Container = styled.div`
         border: none;
         border-radius: 6px;
 
-        width: 240px;
+        width: 300px;
         height: 42px;
 
         margin-top: 70px;
@@ -69,6 +74,7 @@ export const Container = styled.div`
         background: #E22D2D;
         color: #fff;
 
+        font-size: 16px;
 
         transition: background 0.2s ease-in-out;
 

@@ -1,16 +1,15 @@
 export interface IUser {
-  user?: {
     name: string;
     surname: string;
     username: string;
-  }
 }
 
-export interface IContext extends IUser {
+export interface IContext {
   isAuthenticate: boolean | null;
   token: string | null | undefined;
   authenticate: (username: string, password: string) => Promise<void>
   logout: () => void;
+  getUserLocalStorage: () => IUser;
 }
 
 export interface IAuthProvider {

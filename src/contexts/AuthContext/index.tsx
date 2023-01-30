@@ -70,11 +70,11 @@ export function AuthProvider({ children }: IAuthProvider ) {
 
 	return (
 		<AuthContext.Provider value={{
-			...user,
 			isAuthenticate,
 			token,
 			authenticate,
-			logout
+			logout,
+			getUserLocalStorage,
 		}}>
 			{ children }
 		</AuthContext.Provider>
