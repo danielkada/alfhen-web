@@ -3,13 +3,14 @@ import { useLocation } from 'react-router-dom';
 
 import Footer from '../../components/Footer';
 import SignOutModal from '../../components/SignOutModal';
+import useLocalStorage from '../../hooks/useLocalStorage';
 import GoogleBooks from '../GoogleBooks';
 import Profile from '../Profile';
 import Readings from '../Readings';
 import { SelectedProps } from './types';
 
 export default function Dashboard() {
-	const [selected, setSelected] = useState<'readings' | 'books' | 'profile'>('readings');
+	const [selected, setSelected] = useLocalStorage('s', 'readings');
 	const [isVisible, setIsVisible] = useState(false);
 
 	const location = useLocation();
@@ -27,7 +28,7 @@ export default function Dashboard() {
 		if (hasSelected) {
 			setSelected(hasSelected);
 		}
-	}, [location.state?.selected]);
+	}, [location.state?.selected, setSelected]);
 
 	return (
 		<>
