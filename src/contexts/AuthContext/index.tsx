@@ -3,6 +3,7 @@ import { createContext, useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import SessionService from '../../services/SessionService';
+import UserService from '../../services/UserService';
 
 import { IAuthProvider, IContext, IUser } from './types';
 
@@ -55,6 +56,17 @@ export function AuthProvider({ children }: IAuthProvider ) {
 		navigate('/signin');
 	}, [navigate]);
 
+	async function update({ name, surname, username }: IUser) {
+		const token = getTokenLocalStorage(logout);
+		const userService = new UserService(token as string);
+
+		await userService.update({ name, surname, username });
+
+		setUser({ name, surname, username});
+
+		setUserLocalStorage({ name, surname, username});
+	}
+
 	useEffect(() => {
 		const userLocalStorage: IUser | null = getUserLocalStorage();
 		const tokenLocalStorage: string | null | undefined = getTokenLocalStorage(() => logout);
@@ -75,6 +87,7 @@ export function AuthProvider({ children }: IAuthProvider ) {
 			authenticate,
 			logout,
 			getUserLocalStorage,
+			update,
 		}}>
 			{ children }
 		</AuthContext.Provider>

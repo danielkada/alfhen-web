@@ -21,6 +21,10 @@ class HttpClient {
 	post(path: string, body: object) {
 		return this.api.post(path, body);
 	}
+
+	put(path: string, body: object) {
+		return this.api.put(path, body);
+	}
 }
 
 export default HttpClient;

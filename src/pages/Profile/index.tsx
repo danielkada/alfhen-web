@@ -1,10 +1,11 @@
-
 import { ChangeEvent, useContext, useEffect, useState } from 'react';
+
 import { AuthContext } from '../../contexts/AuthContext';
+
 import { Container } from './styles';
 
 export default function Profile() {
-	const { getUserLocalStorage } = useContext(AuthContext);
+	const { getUserLocalStorage, update } = useContext(AuthContext);
 	const user = getUserLocalStorage();
 
 	const [name, setName] = useState<string>();
@@ -41,10 +42,18 @@ export default function Profile() {
 		setUsername(value);
 	}
 
-	function handleProfileUpdate(event: ChangeEvent<HTMLFormElement>) {
+	async function handleProfileUpdate(event: ChangeEvent<HTMLFormElement>) {
 		event.preventDefault();
 
-		console.log('a');
+		setName(name);
+		setSurname(surname);
+		setUsername(username);
+
+		await update({
+			name: name as string || user.name,
+			surname: surname as string || user.surname,
+			username: username as string || user.username,
+		});
 	}
 
 	useEffect(() => {

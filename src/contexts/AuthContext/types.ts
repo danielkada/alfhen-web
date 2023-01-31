@@ -9,6 +9,7 @@ export interface IContext {
   token: string | null | undefined;
   authenticate: (username: string, password: string) => Promise<void>
   logout: () => void;
+  update: ({ name, surname, username }: IUser) => Promise<void>;
   getUserLocalStorage: () => IUser;
 }
 
