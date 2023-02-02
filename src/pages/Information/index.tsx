@@ -13,6 +13,7 @@ export default function Information() {
 
 	const location = useLocation();
 	const { book } = location.state;
+	console.log(book);
 
 	const { token } = useContext(AuthContext);
 
@@ -33,7 +34,8 @@ export default function Information() {
 	async function handleCreateReading() {
 		await readingsService.create({
 			book_id: book.id,
-			current_page: currentPage
+			current_page: currentPage,
+			numberOfPages: book.numberOfPages,
 		});
 
 		navigate('/dashboard');

@@ -2,14 +2,16 @@ import{ useContext, useState, ChangeEvent, useEffect, useMemo } from 'react';
 
 import { AuthContext } from '../../contexts/AuthContext';
 
-import YourBooks from '../../components/YourBooks';
 import Header from '../../components/Header';
+import Reading from '../../components/Reading';
+
 import ReadingService from '../../services/ReadingService';
 
 import useAuth from '../../contexts/AuthContext/utils';
 
-import { Container } from './styles';
 import { ReadingProps } from './types';
+
+import { Container, YourReadings } from './styles';
 
 export default function Readings() {
 	const { logout } = useContext(AuthContext);
@@ -54,7 +56,17 @@ export default function Readings() {
 					placeholder='Busque um livro que está lendo'
 				/>
 
-				<YourBooks readings={filteredReadings} />
+				<YourReadings>
+					{filteredReadings.map((reading) => (
+						<Reading
+							id={reading.id}
+							key={reading.id}
+							book={reading.book}
+							current_page={reading.current_page}
+						/>
+					))}
+
+				</YourReadings>
 			</Container>
 		</>
 

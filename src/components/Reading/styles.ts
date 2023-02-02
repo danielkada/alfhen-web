@@ -73,5 +73,34 @@ export const Container = styled.div`
 
   h6 {
     color: #E22D2D;
+
+    width: 200px;
+  }
+`;
+
+export const ButtonContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding-left: 70px;
+
+  width: 50px;
+  height: 50px;
+
+  border-radius: 100%;
+
+  button {
+    width: 100%;
+    height: 100%;
+
+    border-radius: 100%;
+    border: none;
+
+    transition: opacity 0.2s ease-in-out;
+
+    &:hover {
+      opacity: 0.5;
+    }
   }
 `;

@@ -1,30 +1,55 @@
-import { useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 
-import { AiOutlineBook } from 'react-icons/ai';
-
-import { GrFormSubtract, GrFormAdd} from 'react-icons/gr';
+import { AiOutlineBook, AiOutlineCheck } from 'react-icons/ai';
+import { GrFormSubtract, GrFormAdd } from 'react-icons/gr';
+import { BsCheckAll } from 'react-icons/bs';
 
 import { ReadingProps } from './types';
 
-import { Container } from './styles';
+import { ButtonContainer, Container } from './styles';
+import { AuthContext } from '../../contexts/AuthContext';
+import ReadingService from '../../services/ReadingService';
 
-export default function Reading({ book, current_page}: ReadingProps) {
-	const [count, setCount] = useState<number>();
+export default function Reading({ id, book, current_page}: ReadingProps) {
+	const { token } = useContext(AuthContext);
 
-	console.log(count);
+	const [count, setCount] = useState<number>(parseInt(current_page));
+	const [isMovedTheNumber, setIsMovedTheNumber] = useState<boolean>(false);
+
+	const [isMaximumPageNumber, setIsMaximumPageNumber] = useState<boolean>(false);
 
 	function handleAddCount() {
-		setCount((prevState) => prevState! += 1);
+		if (count >= book.numberOfPages) {
+			return;
+		}
+
+		setIsMovedTheNumber(true);
+
+		const newCount = count + 1;
+		if (newCount === book.numberOfPages) {
+			setIsMaximumPageNumber(true);
+		}
+		setCount(newCount);
 	}
 
 	function handleSubtractCount() {
-		setCount((prevState) => prevState! -= 1);
+		if (count <= 0) {
+			return;
+		}
+
+		setIsMovedTheNumber(true);
+
+		const newCount = count - 1;
+		setCount(newCount);
 	}
 
-	useEffect(() => {
-		const number = parseInt(current_page);
-		setCount(number);
-	}, [current_page]);
+	async function handleSubmit() {
+		const readingService = new ReadingService(token as string);
+
+		readingService.update({ reading_id: id, current_page: count.toString() });
+
+		setIsMovedTheNumber(false);
+	}
 
 	return (
 		<Container>
@@ -51,6 +76,25 @@ export default function Reading({ book, current_page}: ReadingProps) {
 			</button>
 
 			<h6>{book.title}</h6>
+
+			{isMovedTheNumber && !isMaximumPageNumber ? (
+				<ButtonContainer>
+					<button
+						onClick={handleSubmit}
+						type='button'>
+						<AiOutlineCheck size={18} color='#E22D2D'/>
+					</button>
+				</ButtonContainer>
+			) : isMovedTheNumber && isMaximumPageNumber && (
+				<ButtonContainer>
+					<button
+						onClick={handleSubmit}
+						type='button'>
+						<BsCheckAll size={18} color='#E22D2D'/>
+					</button>
+				</ButtonContainer>
+			)}
+
 		</Container>
 	);
 }
