@@ -12,6 +12,8 @@ import { Link } from 'react-router-dom';
 import Input from '../../components/Input';
 
 import { Container, InputContainer } from './styles';
+import FormGroup from '../../components/FormGroup';
+import useErrors from '../../hooks/useErrors';
 
 export default function SignIn() {
 	const [username, setUsername] = useState('');
@@ -19,9 +21,17 @@ export default function SignIn() {
 
 	const { authenticate } = useContext(AuthContext);
 
-	const isFormValid = username.length > 0 && password.length > 0;
+	const {
+		errors,
+		setError,
+		removeError,
+		getErrorByFieldName
+	} = useErrors();
+
+	const isFormValid = errors.length === 0;
 	const iconColor = isFormValid ? '#fff' : '#B5B3B3';
 
+	console.log(errors.length === 0);
 
 	function handleUsernameChange(event: ChangeEvent<HTMLInputElement>) {
 		const { value } = event.target;
@@ -31,6 +41,12 @@ export default function SignIn() {
 		}
 
 		setUsername(value);
+
+		if (!value) {
+			setError({ field: 'username', message: 'Nome de usuário obrigatório!' });
+		} else {
+			removeError('username');
+		}
 	}
 
 	function handlePasswordChange(event: ChangeEvent<HTMLInputElement>) {
@@ -41,6 +57,12 @@ export default function SignIn() {
 		}
 
 		setPassword(value);
+
+		if (!value) {
+			setError({ field: 'password', message: 'A senha é obrigatória!' });
+		} else {
+			removeError('password');
+		}
 	}
 
 	async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -54,22 +76,30 @@ export default function SignIn() {
 			<InputContainer onSubmit={handleSubmit}>
 				<img width={110} src={logo} alt='Logo' />
 
-				<Input
-					placeholder='Nome de usuário'
-					type="text"
-					onChange={handleUsernameChange}
-					value={username}
-					IconComponent={AiOutlineUser}
-				/>
+				<FormGroup error={getErrorByFieldName('username')}>
+					<Input
+						error={!!getErrorByFieldName('username')}
+						placeholder='Nome de usuário'
+						type="text"
+						onChange={handleUsernameChange}
+						value={username}
+						IconComponent={AiOutlineUser}
+					/>
+				</FormGroup>
 
-				<Input
-					placeholder='Senha'
-					type="password"
-					onChange={handlePasswordChange}
-					value={password}
-					IconComponent={AiOutlineLock}
-					isPassword
-				/>
+
+				<FormGroup error={getErrorByFieldName('password')}>
+					<Input
+						error={!!getErrorByFieldName('password')}
+						placeholder='Senha'
+						type="password"
+						onChange={handlePasswordChange}
+						value={password}
+						IconComponent={AiOutlineLock}
+						isPassword
+					/>
+				</FormGroup>
+
 
 				<button className='to-enter' type='submit' disabled={!isFormValid}>
 					<FaSignInAlt color={iconColor} size={36}/>

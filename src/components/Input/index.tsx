@@ -13,6 +13,8 @@ export default function Input({
 	value,
 	IconComponent,
 	isPassword = false,
+	error,
+
 }: InputProps) {
 	const [isFocused, setIsFocused] = useState<boolean>(false);
 	const [visiblePassword, setVisiblePassword] = useState<boolean>(false);
@@ -26,9 +28,9 @@ export default function Input({
 	}
 
 	return (
-		<Container isFocused={isFocused}>
+		<Container isFocused={isFocused} error={error}>
 			<div className="icon">
-				<IconComponent size={22} color={iconColor} />
+				<IconComponent size={22} color={error ? '#B80303' : iconColor} />
 			</div>
 
 			<input

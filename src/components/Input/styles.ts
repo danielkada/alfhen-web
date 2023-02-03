@@ -21,9 +21,9 @@ export const Container = styled.div<ContainerStyledProps>`
     border: 1px solid #E22D2D;
   `}
 
-  & + div {
-    margin-top: 16px;
-  }
+  ${({ error }) => error && css`
+    border: 1px solid #B80303 !important;
+  `}
 
   button {
     background-color: transparent;

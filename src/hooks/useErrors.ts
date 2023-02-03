@@ -6,7 +6,7 @@ interface ErrorProps {
 }
 
 export default function useErrors() {
-	const [errors, setErrors] = useState<ErrorProps[]>();
+	const [errors, setErrors] = useState<ErrorProps[]>([]);
 
 	const setError = ({ field, message }: ErrorProps) => {
 		const errorAlreadyExists = errors?.find((error) => error.field === field);
@@ -15,10 +15,15 @@ export default function useErrors() {
 			return;
 		}
 
-		setErrors((prevState) => [
-			...prevState!,
-			{ field, message }
-		]);
+		if (errors.length > 0) {
+			setErrors((prevState) => [
+				...prevState,
+				{ field, message }
+			]);
+		} else {
+			setErrors([{ field, message }]);
+		}
+
 	};
 
 	const removeError = (fieldName: string): void => {
