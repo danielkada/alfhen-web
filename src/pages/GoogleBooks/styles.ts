@@ -1,12 +1,19 @@
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import { ContainerStyledProps } from './types';
 
 export const Container = styled.div`
   padding: 80px
 `;
 
-export const CardsContainer = styled.div`
+export const CardsContainer = styled.div<ContainerStyledProps>`
   display: flex;
+
+  ${({ isLoading }) => isLoading && css`
+    align-items: center;
+    justify-content: center;
+  `}
+
   flex-wrap: wrap;
 
   border-top: 1px solid #E22D2D;

@@ -11,13 +11,18 @@ import { ChangeEvent, FormEvent, useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Input from '../../components/Input';
 
-import { Container, InputContainer } from './styles';
-import FormGroup from '../../components/FormGroup';
 import useErrors from '../../hooks/useErrors';
+
+import FormGroup from '../../components/FormGroup';
+import LoadingButton from '../../components/LoadingButton';
+
+import { Container, InputContainer } from './styles';
 
 export default function SignIn() {
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
+
+	const [isLoading, setIsLoading] = useState<boolean>(false);
 
 	const { authenticate } = useContext(AuthContext);
 
@@ -28,10 +33,8 @@ export default function SignIn() {
 		getErrorByFieldName
 	} = useErrors();
 
-	const isFormValid = errors.length === 0;
+	const isFormValid = username.length > 0 && password.length > 0 &&  errors.length === 0;
 	const iconColor = isFormValid ? '#fff' : '#B5B3B3';
-
-	console.log(errors.length === 0);
 
 	function handleUsernameChange(event: ChangeEvent<HTMLInputElement>) {
 		const { value } = event.target;
@@ -68,7 +71,11 @@ export default function SignIn() {
 	async function handleSubmit(event: FormEvent<HTMLFormElement>) {
 		event.preventDefault();
 
+		setIsLoading(true);
+
 		await authenticate(username, password);
+
+		setIsLoading(false);
 	}
 
 	return (
@@ -102,7 +109,12 @@ export default function SignIn() {
 
 
 				<button className='to-enter' type='submit' disabled={!isFormValid}>
-					<FaSignInAlt color={iconColor} size={36}/>
+					{isLoading
+						? (
+							<LoadingButton />
+						) : (
+							<FaSignInAlt color={iconColor} size={36}/>
+						)}
 				</button>
 
 				<Link to="/signup">

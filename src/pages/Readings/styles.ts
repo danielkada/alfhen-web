@@ -1,10 +1,18 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+
+import { YourReadingStyledProps } from './types';
 
 export const Container = styled.div`
   padding: 80px
 `;
 
-export const YourReadings = styled.div`
+export const YourReadings = styled.div<YourReadingStyledProps>`
+  ${({ isLoading }) => isLoading && css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  `}
+
   height: 400px;
 
   overflow-y: auto;

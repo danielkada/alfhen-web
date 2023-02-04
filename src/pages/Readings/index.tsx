@@ -12,6 +12,7 @@ import useAuth from '../../contexts/AuthContext/utils';
 import { ReadingProps } from './types';
 
 import { Container, YourReadings } from './styles';
+import LoadingAll from '../../components/LoadingAll';
 
 export default function Readings() {
 	const { logout } = useContext(AuthContext);
@@ -19,6 +20,8 @@ export default function Readings() {
 
 	const [searchTerm, setSearchTerm] = useState('');
 	const [readings, setReadings] = useState<Array<ReadingProps>>([]);
+
+	const [isLoading, setIsLoading] = useState<boolean>(true);
 
 	const filteredReadings = useMemo(() => readings.filter((reading) => (
 		reading.book.title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -39,6 +42,8 @@ export default function Readings() {
 				setReadings(data);
 			} catch(error) {
 				console.log(error);
+			} finally {
+				setIsLoading(false);
 			}
 
 		}
@@ -56,8 +61,12 @@ export default function Readings() {
 					placeholder='Busque um livro que está lendo'
 				/>
 
-				<YourReadings>
-					{filteredReadings.map((reading) => (
+				<YourReadings isLoading={isLoading}>
+					{isLoading && (
+						<LoadingAll />
+					)}
+
+					{!isLoading && filteredReadings.map((reading) => (
 						<Reading
 							id={reading.id}
 							key={reading.id}

@@ -31,3 +31,7 @@ export interface ReadingProps {
     created_at: string;
     current_page: string;
 }
+
+export interface YourReadingStyledProps {
+  isLoading: boolean;
+}

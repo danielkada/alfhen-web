@@ -1,4 +1,5 @@
 import { ChangeEvent, useContext, useEffect, useState } from 'react';
+import LoadingButton from '../../components/LoadingButton';
 
 import { AuthContext } from '../../contexts/AuthContext';
 
@@ -7,6 +8,8 @@ import { Container } from './styles';
 export default function Profile() {
 	const { getUserLocalStorage, update } = useContext(AuthContext);
 	const user = getUserLocalStorage();
+
+	const [isLoading, setIsLoading] = useState<boolean>(false);
 
 	const [name, setName] = useState<string>();
 	const [surname, setSurname] = useState<string>();
@@ -45,6 +48,8 @@ export default function Profile() {
 	async function handleProfileUpdate(event: ChangeEvent<HTMLFormElement>) {
 		event.preventDefault();
 
+		setIsLoading(true);
+
 		setName(name);
 		setSurname(surname);
 		setUsername(username);
@@ -54,6 +59,8 @@ export default function Profile() {
 			surname: surname as string || user.surname,
 			username: username as string || user.username,
 		});
+
+		setIsLoading(false);
 	}
 
 	useEffect(() => {
@@ -102,7 +109,11 @@ export default function Profile() {
 					</div>
 
 					<div className="button-container">
-						<button type='submit'>Atualizar</button>
+						<button type='submit'>
+							{isLoading
+								? <LoadingButton />
+								: 'Atualzar'}
+						</button>
 					</div>
 				</form>
 			</Container>

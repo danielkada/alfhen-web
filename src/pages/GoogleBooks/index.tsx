@@ -11,10 +11,13 @@ import { AuthContext } from '../../contexts/AuthContext';
 import { GoogleBookProps } from './types';
 
 import { Card, CardsContainer, Container, NoBooks } from './styles';
+import LoadingAll from '../../components/LoadingAll';
 
 export default function GoogleBooks() {
 	const [searchTerm, setSearchTerm] = useState('');
 	const [googleBooks, setGoogleBooks] = useState<GoogleBookProps[]>();
+
+	const [isLoading, setIsLoading] = useState<boolean>(false);
 
 	const { token } = useContext(AuthContext);
 
@@ -31,10 +34,14 @@ export default function GoogleBooks() {
 	}
 
 	async function handleSearchBooks() {
+		setIsLoading(true);
+
 		if (searchTerm.length > 0) {
 			const { data: books } = await googleBooksService.findByTitle(searchTerm);
 			setGoogleBooks(books.items);
 		}
+
+		setIsLoading(false);
 	}
 
 	return (
@@ -49,8 +56,10 @@ export default function GoogleBooks() {
 					onSearchGoogleBooks={handleSearchBooks}
 				/>
 
-				<CardsContainer>
-					{filteredBooks?.length === 0 && (
+				<CardsContainer isLoading={isLoading}>
+					{isLoading && <LoadingAll />}
+
+					{!isLoading && filteredBooks?.length === 0 && (
 						<NoBooks>
 							<p>
                 Nenhum livro com o título <strong>{searchTerm}</strong> foi encontrado!
@@ -58,7 +67,7 @@ export default function GoogleBooks() {
 						</NoBooks>
 					)}
 
-					{googleBooks?.length === 0 || googleBooks === undefined && (
+					{!isLoading && (googleBooks?.length === 0 || googleBooks === undefined) && (
 						<NoBooks>
 							<p>
                 Nenhum livro para ser exibido, digite o
@@ -69,7 +78,7 @@ export default function GoogleBooks() {
 						</NoBooks>
 					)}
 
-					{filteredBooks?.map((book) => (
+					{!isLoading && filteredBooks?.map((book) => (
 						<Card to={'/information'} state={{ book }} key={book.id}>
 							<div className="text-container">
 								<h4>{book.title}</h4>

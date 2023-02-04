@@ -8,3 +8,7 @@ export interface GoogleBookProps {
   title: string;
   subtitle: string | null;
 }
+
+export interface ContainerStyledProps {
+  isLoading: boolean;
+}

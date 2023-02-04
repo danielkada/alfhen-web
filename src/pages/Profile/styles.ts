@@ -63,6 +63,10 @@ export const Container = styled.div`
       justify-content: center;
 
       button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
         border: none;
         border-radius: 6px;
 
