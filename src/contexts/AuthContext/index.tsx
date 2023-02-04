@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import SessionService from '../../services/SessionService';
 import UserService from '../../services/UserService';
 
-import { IAuthProvider, IContext, IUser } from './types';
+import { IAuthProvider, IContext, IUser, IUserCreate } from './types';
 
 import useAuth from './utils';
 
@@ -56,6 +56,18 @@ export function AuthProvider({ children }: IAuthProvider ) {
 		navigate('/signin');
 	}, [navigate]);
 
+	async function create({name, surname, username, password, confirm_password }: IUserCreate) {
+		try {
+			const userService = new UserService(null);
+
+			await userService.create({ name, surname, username, password, confirm_password });
+
+			navigate('/signin');
+		} catch(error) {
+			console.log(error);
+		}
+	}
+
 	async function update({ name, surname, username }: IUser) {
 		const token = getTokenLocalStorage(logout);
 		const userService = new UserService(token as string);
@@ -88,6 +100,7 @@ export function AuthProvider({ children }: IAuthProvider ) {
 			logout,
 			getUserLocalStorage,
 			update,
+			create,
 		}}>
 			{ children }
 		</AuthContext.Provider>

@@ -33,6 +33,10 @@ export const InputContainer = styled.form`
   }
 
   .create {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     border: none;
     border-radius: 6px;
 

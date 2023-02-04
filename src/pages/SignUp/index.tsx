@@ -1,20 +1,30 @@
 import backgroundImage from '../../assets/images/background-book.jpg';
 
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useState, useContext } from 'react';
 
 import { Link } from 'react-router-dom';
 
 import { AiOutlineUser, AiOutlineLock } from 'react-icons/ai';
-import Input from '../../components/Input';
 
-import { Container, InputContainer } from './styles';
 import useErrors from '../../hooks/useErrors';
+
+import Input from '../../components/Input';
 import FormGroup from '../../components/FormGroup';
 
+import { Container, InputContainer } from './styles';
+import { AuthContext } from '../../contexts/AuthContext';
+import LoadingButton from '../../components/LoadingButton';
+
 export default function SignUp() {
+	const [name, setName] = useState('');
+	const [surname, setSurname] = useState('');
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
+
+	const [isLoading, setIsLoading] = useState<boolean>(false);
+
+	const { create } = useContext(AuthContext);
 
 	const {
 		errors,
@@ -26,6 +36,38 @@ export default function SignUp() {
 	const isFormValid = errors.length === 0
     && password.length > 0
     && password === confirmPassword;
+
+	function handleNameChange(event: ChangeEvent<HTMLInputElement>) {
+		const { value } = event.target;
+
+		if (value === ' ') {
+			return;
+		}
+
+		setName(value);
+
+		if (!value) {
+			setError({ field: 'name', message: 'O nome é obrigatório!' });
+		} else {
+			removeError('name');
+		}
+	}
+
+	function handleSurnameChange(event: ChangeEvent<HTMLInputElement>) {
+		const { value } = event.target;
+
+		if (value === ' ') {
+			return;
+		}
+
+		setSurname(value);
+
+		if (!value) {
+			setError({ field: 'surname', message: 'O sobrenome é obrigatório!' });
+		} else {
+			removeError('surname');
+		}
+	}
 
 	function handleUsernameChange(event: ChangeEvent<HTMLInputElement>) {
 		const { value } = event.target;
@@ -85,12 +127,14 @@ export default function SignUp() {
 		}
 	}
 
-	function handleSubmit(event: FormEvent<HTMLFormElement>) {
+	async function handleSubmit(event: FormEvent<HTMLFormElement>) {
 		event.preventDefault();
 
-		console.log(username);
-		console.log(password);
-		console.log(confirmPassword);
+		setIsLoading(true);
+
+		await create({ name, surname, username, password, confirm_password: confirmPassword});
+
+		setIsLoading(false);
 	}
 
 	return (
@@ -99,6 +143,28 @@ export default function SignUp() {
 
 			<InputContainer onSubmit={handleSubmit}>
 				<h3>Ao infinito e conhecimento!</h3>
+
+				<FormGroup error={getErrorByFieldName('name')}>
+					<Input
+						error={!!getErrorByFieldName('name')}
+						placeholder='Nome'
+						type="text"
+						onChange={handleNameChange}
+						value={name}
+						IconComponent={AiOutlineUser}
+					/>
+				</FormGroup>
+
+				<FormGroup error={getErrorByFieldName('surname')}>
+					<Input
+						error={!!getErrorByFieldName('surname')}
+						placeholder='Sobrenome'
+						type="text"
+						onChange={handleSurnameChange}
+						value={surname}
+						IconComponent={AiOutlineUser}
+					/>
+				</FormGroup>
 
 				<FormGroup error={getErrorByFieldName('username')}>
 					<Input
@@ -123,7 +189,6 @@ export default function SignUp() {
 					/>
 				</FormGroup>
 
-
 				<FormGroup error={getErrorByFieldName('confirm_password')}>
 					<Input
 						error={!!getErrorByFieldName('confirm_password')}
@@ -136,9 +201,10 @@ export default function SignUp() {
 					/>
 				</FormGroup>
 
-
 				<button className='create' type='submit' disabled={!isFormValid}>
-					Começar
+					{isLoading
+						? <LoadingButton />
+						: 'Começar'}
 				</button>
 
 				<Link to="/signin">
