@@ -112,7 +112,7 @@ export default function Profile() {
 						<button type='submit'>
 							{isLoading
 								? <LoadingButton />
-								: 'Atualzar'}
+								: 'Atualizar'}
 						</button>
 					</div>
 				</form>
