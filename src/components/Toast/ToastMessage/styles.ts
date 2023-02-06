@@ -1,6 +1,8 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-export const Container = styled.div`
+import { ContainerStyledProps } from './types';
+
+export const Container = styled.div<ContainerStyledProps>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -13,6 +15,18 @@ export const Container = styled.div`
   border-radius: 6px;
 
   box-shadow: 0px 20px 20px -16px rgba(0, 0, 0, 0.25);
+
+  ${({ type }) => type === 'default' && css`
+    background-color: #F0DFDF;
+  `}
+
+  ${({ type }) => type === 'error' && css`
+    background-color: #B80303;
+  `}
+
+  ${({ type }) => type === 'success' && css`
+    background-color: #209616;
+  `}
 
   strong {
     margin-left: 8px;

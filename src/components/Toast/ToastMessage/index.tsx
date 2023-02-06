@@ -9,7 +9,7 @@ export default function ToastMessage({ text, type }: ToastMessageProps) {
 	console.log(type);
 
 	return (
-		<Container>
+		<Container type={type}>
 			{type === 'error' && <BiErrorCircle size={22} />}
 			{type === 'success' && <AiOutlineCheckCircle size={22} />}
 			<strong>{text}</strong>
