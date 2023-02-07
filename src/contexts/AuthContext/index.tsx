@@ -1,4 +1,3 @@
-import { AxiosError } from 'axios';
 import { createContext, useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -27,24 +26,15 @@ export function AuthProvider({ children }: IAuthProvider ) {
 	} = useAuth();
 
 	async function authenticate(username: string, password: string) {
-		try {
-			const { data } = await SessionService.login({ username, password });
+		const { data } = await SessionService.login({ username, password });
 
-			setUser(data.user);
-			setToken(data.token);
+		setUser(data.user);
+		setToken(data.token);
 
-			setUserLocalStorage(data.user);
-			setTokenLocalStorage(data.token);
+		setUserLocalStorage(data.user);
+		setTokenLocalStorage(data.token);
 
-			navigate('/dashboard');
-		} catch(error) {
-			if (error instanceof AxiosError) {
-				console.log(error.response?.data);
-
-				return;
-			}
-			console.log(error);
-		}
+		navigate('/dashboard');
 	}
 
 	const logout = useCallback(() => {

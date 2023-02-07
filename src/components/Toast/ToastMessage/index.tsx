@@ -6,8 +6,6 @@ import { ToastMessageProps } from './types';
 import { Container } from './styles';
 
 export default function ToastMessage({ text, type }: ToastMessageProps) {
-	console.log(type);
-
 	return (
 		<Container type={type}>
 			{type === 'error' && <BiErrorCircle size={22} />}

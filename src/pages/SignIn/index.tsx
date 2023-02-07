@@ -17,6 +17,16 @@ import FormGroup from '../../components/FormGroup';
 import LoadingButton from '../../components/LoadingButton';
 
 import { Container, InputContainer } from './styles';
+import toast from '../../utils/toast';
+import { AxiosError } from 'axios';
+
+interface EventProps extends Event {
+  detail: {
+    id: number;
+  type: string;
+  text: string;
+  }
+}
 
 export default function SignIn() {
 	const [username, setUsername] = useState('');
@@ -73,9 +83,27 @@ export default function SignIn() {
 
 		setIsLoading(true);
 
-		await authenticate(username, password);
+		try {
+			await authenticate(username, password);
+		} catch (error) {
+			console.log(error);
+			if (error instanceof AxiosError) {
+				if (error.response?.data?.error.includes('These credentials do not match an account in our system!')) {
+					toast({
+						type: 'danger',
+						text: 'As credenciais de login não coincidem com uma conta em nosso sistema!'
+					});
 
-		setIsLoading(false);
+					return;
+				}
+			}
+
+			toast({
+				type: 'danger',
+				text: 'Houve um erro ao autenticar o usuário!'
+			});
+		} finally { setIsLoading(false); }
+
 	}
 
 	return (

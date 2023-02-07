@@ -21,15 +21,19 @@ export const Container = styled.div<ContainerStyledProps>`
   `}
 
   ${({ type }) => type === 'error' && css`
+    color: #fff;
     background-color: #B80303;
-  `}
+    `}
 
   ${({ type }) => type === 'success' && css`
+    color: #fff;
     background-color: #209616;
   `}
 
   strong {
-    margin-left: 8px;
+    ${({ type }) => type !== 'default' && css`
+      margin-left: 8px;
+    `}
   }
 
   & + & {
