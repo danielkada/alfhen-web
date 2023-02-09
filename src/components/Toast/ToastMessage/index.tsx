@@ -11,7 +11,12 @@ export default function ToastMessage({ message, onRemoveMessage }: ToastMessageP
 	}
 
 	return (
-		<Container type={message.type} onClick={handleRemoveToast}>
+		<Container
+			type={message.type}
+			onClick={handleRemoveToast}
+			tabIndex={0}
+			role='button'
+		>
 			{message.type === 'error' && <BiErrorCircle size={22} />}
 			{message.type === 'success' && <AiOutlineCheckCircle size={22} />}
 			<strong>{message.text}</strong>
