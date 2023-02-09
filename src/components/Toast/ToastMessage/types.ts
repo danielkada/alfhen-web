@@ -1,6 +1,10 @@
 export interface ToastMessageProps {
-  text: string;
-  type: 'default' | 'error' | 'success';
+  message: {
+    id: number;
+    text: string;
+    type: 'default' | 'error' | 'success';
+  }
+  onRemoveMessage: (id: number) => void;
 }
 
 export interface ContainerStyledProps {

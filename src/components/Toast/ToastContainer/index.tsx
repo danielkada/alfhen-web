@@ -11,6 +11,12 @@ import { Container } from './styles';
 export default function ToastContainer() {
 	const [messages, setMessages] = useState<MessageProps[]>([]);
 
+	function handleRemoveMessage(id: number) {
+		setMessages((prevState) => prevState.filter((message) => (
+			message.id !== id
+		)));
+	}
+
 	useEffect(() => {
 		function handleAddToast({ type, text }: MessageProps) {
 			setMessages((prevState) => [
@@ -33,7 +39,11 @@ export default function ToastContainer() {
 	return (
 		<Container>
 			{messages.map((message) => (
-				<ToastMessage key={message.id} type={message.type} text={message.text} />
+				<ToastMessage
+					key={message.id}
+					message={message}
+					onRemoveMessage={handleRemoveMessage}
+				/>
 			))}
 		</Container>
 	);

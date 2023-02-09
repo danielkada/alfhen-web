@@ -20,14 +20,6 @@ import { Container, InputContainer } from './styles';
 import toast from '../../utils/toast';
 import { AxiosError } from 'axios';
 
-interface EventProps extends Event {
-  detail: {
-    id: number;
-  type: string;
-  text: string;
-  }
-}
-
 export default function SignIn() {
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
