@@ -4,11 +4,22 @@ import { AiOutlineCheckCircle } from 'react-icons/ai';
 import { ToastMessageProps } from './types';
 
 import { Container } from './styles';
+import { useEffect } from 'react';
 
 export default function ToastMessage({ message, onRemoveMessage }: ToastMessageProps) {
 	function handleRemoveToast() {
 		onRemoveMessage(message.id);
 	}
+
+	useEffect(() => {
+		const timeoutId = setTimeout(() => {
+			onRemoveMessage(message.id);
+		}, message.duration || 4000);
+
+		return () => {
+			clearTimeout(timeoutId);
+		};
+	}, [message, onRemoveMessage]);
 
 	return (
 		<Container

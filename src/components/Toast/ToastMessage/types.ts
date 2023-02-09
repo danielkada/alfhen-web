@@ -3,6 +3,7 @@ export interface ToastMessageProps {
     id: number;
     text: string;
     type: 'default' | 'error' | 'success';
+    duration?: number;
   }
   onRemoveMessage: (id: number) => void;
 }

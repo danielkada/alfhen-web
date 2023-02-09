@@ -12,6 +12,7 @@ interface OnProps {
 interface ListenerProps {
   type: string;
   text: string;
+  duration?: number;
 }
 
 interface EmitProps {

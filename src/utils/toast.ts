@@ -5,8 +5,9 @@ export const toastEventManager = new EventManager();
 interface ToastProps {
   type: string;
   text: string;
+  duration?: number;
 }
 
-export default function toast({ type, text }: ToastProps) {
-	toastEventManager.emit({ event: 'addtoast', payload: { type, text }});
+export default function toast({ type, text, duration }: ToastProps) {
+	toastEventManager.emit({ event: 'addtoast', payload: { type, text, duration }});
 }

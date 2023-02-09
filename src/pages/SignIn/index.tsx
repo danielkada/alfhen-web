@@ -9,16 +9,18 @@ import { AuthContext } from '../../contexts/AuthContext';
 import { ChangeEvent, FormEvent, useContext, useState } from 'react';
 
 import { Link } from 'react-router-dom';
-import Input from '../../components/Input';
 
 import useErrors from '../../hooks/useErrors';
 
+import toast from '../../utils/toast';
+
+import { AxiosError } from 'axios';
+
+import Input from '../../components/Input';
 import FormGroup from '../../components/FormGroup';
 import LoadingButton from '../../components/LoadingButton';
 
 import { Container, InputContainer } from './styles';
-import toast from '../../utils/toast';
-import { AxiosError } from 'axios';
 
 export default function SignIn() {
 	const [username, setUsername] = useState('');
