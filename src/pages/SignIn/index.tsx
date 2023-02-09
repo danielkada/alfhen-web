@@ -86,13 +86,15 @@ export default function SignIn() {
 		try {
 			await authenticate(username, password);
 		} catch (error) {
-			console.log(error);
 			if (error instanceof AxiosError) {
+				// console.log(error.response?.data?.error.includes('These credentials do not match an account in our system!'));
 				if (error.response?.data?.error.includes('These credentials do not match an account in our system!')) {
 					toast({
 						type: 'danger',
 						text: 'As credenciais de login não coincidem com uma conta em nosso sistema!'
 					});
+
+					setPassword('');
 
 					return;
 				}
