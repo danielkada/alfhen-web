@@ -1,5 +1,3 @@
-import backgroundImage from '../../assets/images/background-book.jpg';
-
 import { ChangeEvent, FormEvent, useState, useContext } from 'react';
 
 import { Link } from 'react-router-dom';
@@ -139,8 +137,6 @@ export default function SignUp() {
 
 	return (
 		<Container>
-			<img className='book-img' src={backgroundImage} alt="Books" />
-
 			<InputContainer onSubmit={handleSubmit}>
 				<h3>Ao infinito e conhecimento!</h3>
 

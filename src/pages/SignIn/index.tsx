@@ -1,4 +1,3 @@
-import backgroundImage from '../../assets/images/background-book.jpg';
 import logo from '../../assets/images/logo.svg';
 
 import { AiOutlineUser, AiOutlineLock } from 'react-icons/ai';
@@ -118,7 +117,6 @@ export default function SignIn() {
 					/>
 				</FormGroup>
 
-
 				<FormGroup error={getErrorByFieldName('password')}>
 					<Input
 						error={!!getErrorByFieldName('password')}
@@ -145,8 +143,6 @@ export default function SignIn() {
           Criar conta
 				</Link>
 			</InputContainer>
-
-			<img className='book-img' src={backgroundImage} alt="Books" />
 		</Container>
 	);
 }
