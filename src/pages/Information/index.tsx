@@ -67,7 +67,6 @@ export default function Information() {
 					return;
 				}
 			}
-			console.log(error);
 			setHasError(true);
 			toast({
 				type: 'error',

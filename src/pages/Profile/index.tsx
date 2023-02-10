@@ -1,7 +1,11 @@
+import { AxiosError } from 'axios';
 import { ChangeEvent, useContext, useEffect, useState } from 'react';
+import FormGroup from '../../components/FormGroup';
 import LoadingButton from '../../components/LoadingButton';
 
 import { AuthContext } from '../../contexts/AuthContext';
+import useErrors from '../../hooks/useErrors';
+import toast from '../../utils/toast';
 
 import { Container } from './styles';
 
@@ -14,6 +18,15 @@ export default function Profile() {
 	const [name, setName] = useState<string>();
 	const [surname, setSurname] = useState<string>();
 	const [username, setUsername] = useState<string>();
+
+	const {
+		errors,
+		setError,
+		getErrorByFieldName,
+		removeError,
+	} = useErrors();
+
+	const isFormValid = errors.length === 0;
 
 	function handleNameChange(event: ChangeEvent<HTMLInputElement>) {
 		const { value } = event.target;
@@ -43,6 +56,8 @@ export default function Profile() {
 		}
 
 		setUsername(value);
+
+		removeError('username');
 	}
 
 	async function handleProfileUpdate(event: ChangeEvent<HTMLFormElement>) {
@@ -54,13 +69,34 @@ export default function Profile() {
 		setSurname(surname);
 		setUsername(username);
 
-		await update({
-			name: name as string || user.name,
-			surname: surname as string || user.surname,
-			username: username as string || user.username,
-		});
+		try {
+			await update({
+				name: name as string || user.name,
+				surname: surname as string || user.surname,
+				username: username as string || user.username,
+			});
 
-		setIsLoading(false);
+			toast({
+				type: 'success',
+				text: 'Perfil atualizado'
+			});
+		} catch(error) {
+			console.log(error);
+			if (error instanceof AxiosError) {
+				if (error.response?.data?.error.includes('Username already exists!')) {
+					setError({ field: 'username', message: 'Nome de usuário já em uso!' });
+
+					return;
+				}
+			}
+
+			toast({
+				type: 'error',
+				text: 'Houve um erro ao atualizar o perfil do usuário!'
+			});
+		} finally {
+			setIsLoading(false);
+		}
 	}
 
 	useEffect(() => {
@@ -99,17 +135,20 @@ export default function Profile() {
 
 					<div className="input-container">
 						<label htmlFor="name">Nome de Uusário</label>
-						<input
-							placeholder={user.username}
-							type="text"
-							id='name'
-							onChange={handleUsernameChange}
-							value={username}
-						/>
+						<FormGroup error={getErrorByFieldName('username')}>
+							<input
+								placeholder={user.username}
+								type="text"
+								id='name'
+								onChange={handleUsernameChange}
+								value={username}
+							/>
+						</FormGroup>
+
 					</div>
 
 					<div className="button-container">
-						<button type='submit'>
+						<button type='submit' disabled={!isFormValid}>
 							{isLoading
 								? <LoadingButton />
 								: 'Atualizar'}
