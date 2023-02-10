@@ -12,6 +12,8 @@ import FormGroup from '../../components/FormGroup';
 import { Container, InputContainer } from './styles';
 import { AuthContext } from '../../contexts/AuthContext';
 import LoadingButton from '../../components/LoadingButton';
+import toast from '../../utils/toast';
+import { AxiosError } from 'axios';
 
 export default function SignUp() {
 	const [name, setName] = useState('');
@@ -130,9 +132,24 @@ export default function SignUp() {
 
 		setIsLoading(true);
 
-		await create({ name, surname, username, password, confirm_password: confirmPassword});
+		try {
+			await create({ name, surname, username, password, confirm_password: confirmPassword});
+		} catch (error) {
+			if (error instanceof AxiosError) {
+				if (error.response?.data?.error.includes('Username already exists!')) {
+					setError({ field: 'username', message: 'Nome de usuário já em uso!' });
 
-		setIsLoading(false);
+					return;
+				}
+			}
+
+			toast({
+				type: 'error',
+				text: 'Não foi possível criar o usuário!'
+			});
+		} finally {
+			setIsLoading(false);
+		}
 	}
 
 	return (

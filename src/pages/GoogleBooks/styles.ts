@@ -35,6 +35,10 @@ export const CardsContainer = styled.div<ContainerStyledProps>`
   &::-webkit-scrollbar-thumb {
     background-color: #E22D2D;
   }
+
+  h3 {
+    color: #E22D2D;
+  }
 `;
 
 export const NoBooks = styled.div`

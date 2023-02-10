@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import SessionService from '../../services/SessionService';
 import UserService from '../../services/UserService';
+import toast from '../../utils/toast';
 
 import { IAuthProvider, IContext, IUser, IUserCreate } from './types';
 
@@ -47,15 +48,16 @@ export function AuthProvider({ children }: IAuthProvider ) {
 	}, [navigate]);
 
 	async function create({name, surname, username, password, confirm_password }: IUserCreate) {
-		try {
-			const userService = new UserService(null);
+		const userService = new UserService(null);
 
-			await userService.create({ name, surname, username, password, confirm_password });
+		await userService.create({ name, surname, username, password, confirm_password });
 
-			navigate('/signin');
-		} catch(error) {
-			console.log(error);
-		}
+		toast({
+			type: 'success',
+			text: 'Usuário criado com sucesso!'
+		});
+
+		navigate('/signin');
 	}
 
 	async function update({ name, surname, username }: IUser) {

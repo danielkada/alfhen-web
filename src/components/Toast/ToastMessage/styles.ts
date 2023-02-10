@@ -18,17 +18,13 @@ export const Container = styled.div<ContainerStyledProps>`
 
   box-shadow: 0px 20px 20px -16px rgba(0, 0, 0, 0.25);
 
-  &:focus {
-    background-color: purple;
-  }
-
   ${({ type }) => type === 'default' && css`
     background-color: #F0DFDF;
   `}
 
   ${({ type }) => type === 'error' && css`
     color: #fff;
-    background-color: #B80303;
+    background-color: #CF3030;
     `}
 
   ${({ type }) => type === 'success' && css`

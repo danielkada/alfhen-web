@@ -20,6 +20,11 @@ export const Container = styled.div`
       &:hover {
         opacity: 0.5;
       }
+
+      &[disabled] {
+        cursor: default;
+        opacity: 0.5;
+      }
     }
 
     span {
@@ -117,6 +122,10 @@ export const ButtonContainer = styled.div`
   justify-content: center;
 
   button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     border: none;
 
     width: 240px;

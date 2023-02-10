@@ -22,6 +22,7 @@ export default function Readings() {
 	const [readings, setReadings] = useState<Array<ReadingProps>>([]);
 
 	const [isLoading, setIsLoading] = useState<boolean>(true);
+	const [hasError, setHasError] = useState<boolean>(false);
 
 	const filteredReadings = useMemo(() => readings.filter((reading) => (
 		reading.book.title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -39,13 +40,13 @@ export default function Readings() {
 				const readingService = new ReadingService(token as string);
 
 				const { data } = await readingService.list();
+				setHasError(false);
 				setReadings(data);
 			} catch(error) {
-				console.log(error);
+				setHasError(true);
 			} finally {
 				setIsLoading(false);
 			}
-
 		}
 
 		loadReadings();
@@ -62,11 +63,15 @@ export default function Readings() {
 				/>
 
 				<YourReadings isLoading={isLoading}>
-					{isLoading && (
+					{isLoading && !hasError && (
 						<LoadingAll />
 					)}
 
-					{!isLoading && filteredReadings.map((reading) => (
+					{!isLoading && hasError && (
+						<h3>Houve um erro ao carregar suas leituras!</h3>
+					)}
+
+					{!isLoading && !hasError && filteredReadings.map((reading) => (
 						<Reading
 							id={reading.id}
 							key={reading.id}

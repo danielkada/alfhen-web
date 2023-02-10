@@ -9,9 +9,15 @@ import { ReadingProps } from './types';
 import { ButtonContainer, Container } from './styles';
 import { AuthContext } from '../../contexts/AuthContext';
 import ReadingService from '../../services/ReadingService';
+import toast from '../../utils/toast';
+import useAuth from '../../contexts/AuthContext/utils';
+import LoadingButton from '../LoadingButton';
 
 export default function Reading({ id, book, current_page}: ReadingProps) {
-	const { token } = useContext(AuthContext);
+	const { logout } = useContext(AuthContext);
+	const { getTokenLocalStorage } = useAuth();
+
+	const [isLoading, setIsLoading] = useState<boolean>(false);
 
 	const [count, setCount] = useState<number>(parseInt(current_page));
 	const [isMovedTheNumber, setIsMovedTheNumber] = useState<boolean>(false);
@@ -44,16 +50,32 @@ export default function Reading({ id, book, current_page}: ReadingProps) {
 	}
 
 	async function handleSubmit() {
-		const readingService = new ReadingService(token as string);
+		setIsLoading(true);
 
-		readingService.update({ reading_id: id, current_page: count.toString() });
+		try {
+			const token = getTokenLocalStorage(logout);
+			const readingService = new ReadingService(token as string);
 
-		setIsMovedTheNumber(false);
+			await readingService.update({ reading_id: id, current_page: count.toString() });
+		} catch(error) {
+			toast({
+				type: 'error',
+				text: `Houve um erro ao atualizar a página do livro ${book.title}`
+			});
+		} finally {
+			setIsMovedTheNumber(false);
+			setIsLoading(true);
+		}
 	}
 
 	return (
 		<Container>
-			<button onClick={handleAddCount} type='button' className="add">
+			<button
+				onClick={handleAddCount}
+				type='button'
+				className="add"
+				disabled={isLoading}
+			>
 				<GrFormAdd />
 			</button>
 
@@ -71,7 +93,12 @@ export default function Reading({ id, book, current_page}: ReadingProps) {
 				<span>{count}</span>
 			</div>
 
-			<button onClick={handleSubtractCount} type='button' className="subtract">
+			<button
+				onClick={handleSubtractCount}
+				type='button'
+				className="subtract"
+				disabled={isLoading}
+			>
 				<GrFormSubtract />
 			</button>
 
@@ -81,15 +108,22 @@ export default function Reading({ id, book, current_page}: ReadingProps) {
 				<ButtonContainer>
 					<button
 						onClick={handleSubmit}
-						type='button'>
-						<AiOutlineCheck size={18} color='#E22D2D'/>
+						type='button'
+						disabled={isLoading}
+					>
+						{isLoading && (<LoadingButton />)}
+						{!isLoading && (
+							<AiOutlineCheck size={18} color='#E22D2D'/>
+						)}
 					</button>
 				</ButtonContainer>
 			) : isMovedTheNumber && isMaximumPageNumber && (
 				<ButtonContainer>
 					<button
 						onClick={handleSubmit}
-						type='button'>
+						type='button'
+						disabled={isLoading}
+					>
 						<BsCheckAll size={18} color='#E22D2D'/>
 					</button>
 				</ButtonContainer>

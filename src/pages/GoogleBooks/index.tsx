@@ -18,6 +18,7 @@ export default function GoogleBooks() {
 	const [googleBooks, setGoogleBooks] = useState<GoogleBookProps[]>();
 
 	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [hasError, setHasError] = useState<boolean>(false);
 
 	const { token } = useContext(AuthContext);
 
@@ -36,12 +37,18 @@ export default function GoogleBooks() {
 	async function handleSearchBooks() {
 		setIsLoading(true);
 
-		if (searchTerm.length > 0) {
-			const { data: books } = await googleBooksService.findByTitle(searchTerm);
-			setGoogleBooks(books.items);
-		}
+		try {
+			if (searchTerm.length > 0) {
+				const { data: books } = await googleBooksService.findByTitle(searchTerm);
+				setGoogleBooks(books.items);
 
-		setIsLoading(false);
+				setHasError(false);
+			}
+		} catch {
+			setHasError(true);
+		} finally {
+			setIsLoading(false);
+		}
 	}
 
 	return (
@@ -59,7 +66,11 @@ export default function GoogleBooks() {
 				<CardsContainer isLoading={isLoading}>
 					{isLoading && <LoadingAll />}
 
-					{!isLoading && filteredBooks?.length === 0 && (
+					{hasError && !isLoading && (
+						<h3>Houve um erro ao buscar os livros da GoogleBooks!</h3>
+					)}
+
+					{!isLoading &&!hasError && filteredBooks?.length === 0 && (
 						<NoBooks>
 							<p>
                 Nenhum livro com o título <strong>{searchTerm}</strong> foi encontrado!
@@ -67,7 +78,7 @@ export default function GoogleBooks() {
 						</NoBooks>
 					)}
 
-					{!isLoading && (googleBooks?.length === 0 || googleBooks === undefined) && (
+					{!isLoading && !hasError && (googleBooks?.length === 0 || googleBooks === undefined) && (
 						<NoBooks>
 							<p>
                 Nenhum livro para ser exibido, digite o
@@ -78,7 +89,7 @@ export default function GoogleBooks() {
 						</NoBooks>
 					)}
 
-					{!isLoading && filteredBooks?.map((book) => (
+					{!isLoading && !hasError && filteredBooks?.map((book) => (
 						<Card to={'/information'} state={{ book }} key={book.id}>
 							<div className="text-container">
 								<h4>{book.title}</h4>

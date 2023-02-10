@@ -15,12 +15,21 @@ export const Container = styled.div`
     margin-top: 54px;
   }
 
+  button {
+
+  }
+
   .add {
     margin-left: 32px;
     margin-right: 32px;
 
     background-color: transparent;
     border: none;
+
+    &[disabled] {
+      opacity: 0.5;
+      cursor: default;
+    }
   }
 
   .subtract {
@@ -29,6 +38,11 @@ export const Container = styled.div`
 
     background-color: transparent;
     border: none;
+
+    &[disabled] {
+      opacity: 0.5;
+      cursor: default;
+    }
   }
 
   .img {
@@ -101,6 +115,11 @@ export const ButtonContainer = styled.div`
 
     &:hover {
       opacity: 0.5;
+    }
+
+    &[disabled] {
+      opacity: 0.5;
+      cursor: default;
     }
   }
 `;

@@ -7,19 +7,24 @@ import { AiOutlineBook } from 'react-icons/ai';
 import { ButtonContainer, Container } from './styles';
 import ReadingService from '../../services/ReadingService';
 import { AuthContext } from '../../contexts/AuthContext';
+import useAuth from '../../contexts/AuthContext/utils';
+import LoadingButton from '../../components/LoadingButton';
+import toast from '../../utils/toast';
+import { AxiosError } from 'axios';
 
 export default function Information() {
 	const [currentPage, setCurrentPage] = useState<string>('0');
 
 	const location = useLocation();
 	const { book } = location.state;
-	console.log(book);
 
-	const { token } = useContext(AuthContext);
-
-	const readingsService = new ReadingService(token as string);
+	const { logout } = useContext(AuthContext);
+	const { getTokenLocalStorage } = useAuth();
 
 	const navigate = useNavigate();
+
+	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [hasError, setHasError] = useState<boolean>(false);
 
 	function handleCurrentPageChange(event: ChangeEvent<HTMLInputElement>) {
 		const { value } = event.target;
@@ -32,21 +37,58 @@ export default function Information() {
 	}
 
 	async function handleCreateReading() {
-		await readingsService.create({
-			book_id: book.id,
-			current_page: currentPage,
-			numberOfPages: book.numberOfPages,
-		});
+		setIsLoading(true);
 
-		navigate('/dashboard');
+		try {
+			const token = getTokenLocalStorage(logout);
+			const readingsService = new ReadingService(token as string);
+
+			await readingsService.create({
+				book_id: book.id,
+				current_page: currentPage,
+				numberOfPages: book.numberOfPages,
+			});
+
+			toast({
+				type: 'success',
+				text: `Livro ${book.title} adicionado as suas leituras!`
+			});
+
+			navigate('/dashboard');
+		} catch (error) {
+
+			if (error instanceof AxiosError) {
+				if (error.response?.data?.error.includes('This book is already registered in your readings!')) {
+					toast({
+						type: 'default',
+						text: 'Este livro já pertence as suas leituras!'
+					});
+
+					return;
+				}
+			}
+			console.log(error);
+			setHasError(true);
+			toast({
+				type: 'error',
+				text: 'Houve um erro ao adicionar o livro as suas leituras!'
+			});
+		} finally {
+			setIsLoading(false);
+		}
+
 	}
 
 	return (
 		<Container>
 			<div className="header">
-				<button type='button' onClick={() => navigate('/dashboard', {
-					state: { selected: 'books' }
-				})}>
+				<button
+					type='button'
+					onClick={() => navigate('/dashboard', {
+						state: { selected: 'books' }
+					})}
+					disabled={isLoading}
+				>
 					<TbArrowBack color='#E22D2D' size={26} />
 					<span>Voltar</span>
 				</button>
@@ -103,11 +145,14 @@ export default function Information() {
 					<button disabled={
 						currentPage === undefined
             || currentPage.length === 0
+            || isLoading
 					}
 					onClick={handleCreateReading}
 					type='button'
 					>
-            Adicionar livro
+						{isLoading && (<LoadingButton />)}
+						{!isLoading && !hasError && 'Adicionar livro'}
+						{!isLoading && hasError && 'Tentar novamente'}
 					</button>
 				</ButtonContainer>
 

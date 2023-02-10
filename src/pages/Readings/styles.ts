@@ -30,4 +30,8 @@ export const YourReadings = styled.div<YourReadingStyledProps>`
   &::-webkit-scrollbar-thumb {
     background-color: #E22D2D;
   }
+
+  h3 {
+    color: #E22D2D;
+  }
 `;

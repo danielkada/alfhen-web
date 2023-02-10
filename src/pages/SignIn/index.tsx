@@ -80,10 +80,9 @@ export default function SignIn() {
 			await authenticate(username, password);
 		} catch (error) {
 			if (error instanceof AxiosError) {
-				// console.log(error.response?.data?.error.includes('These credentials do not match an account in our system!'));
 				if (error.response?.data?.error.includes('These credentials do not match an account in our system!')) {
 					toast({
-						type: 'danger',
+						type: 'error',
 						text: 'As credenciais de login não coincidem com uma conta em nosso sistema!'
 					});
 
